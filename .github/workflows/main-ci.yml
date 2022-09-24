@@ -22,6 +22,7 @@ jobs:
       with:
         java-version: '17'
         distribution: 'temurin'
+        cache: 'maven'
 
     - name: Step 3 - Let Github build with Maven project
       run: mvn -B package --file pom.xml
@@ -33,3 +34,12 @@ jobs:
       run: |
         cd target
         ls -a
+    
+    - name: Step 7 - Upload JAR
+      #This uploads artifacts from your workflow allowing you to share data between jobs and store data once a workflow is complete.
+      uses: actions/upload-artifact@v2
+      with:
+        #Set artifact name
+        name: artifact
+        #From this path
+        path: target/parcel-track-n-trace-1.0-SNAPSHOT.jar
