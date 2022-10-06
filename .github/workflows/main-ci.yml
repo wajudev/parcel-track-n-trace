@@ -42,7 +42,7 @@ jobs:
         #Set artifact name
         name: artifact
         #From this path
-        path: target/parcel-track-n-trace-1.0-SNAPSHOT.jar
+        path: target/parcel-track-n-trace-1.1-SNAPSHOT.jar
         
   deploy:
     #Depends on build's job
