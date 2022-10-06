@@ -42,7 +42,7 @@ jobs:
         #Set artifact name
         name: artifact
         #From this path
-        path: target/parcel-track-n-trace-1.1-SNAPSHOT.jar
+        path: target/parcel-track-n-trace-1.0-SNAPSHOT.jar
         
   deploy:
     #Depends on build's job
@@ -63,9 +63,9 @@ jobs:
           aws_access_key: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws_secret_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws_session_token: ${{ secrets.AWS_SESSION_TOKEN }}
-          use_existing_version_if_available: false
+          use_existing_version_if_available: true
           application_name: parcel-track-n-trace	
           environment_name: Parceltrackntrace-env
           version_label: ${{github.SHA}}
           region: us-east-1
-          deployment_package: parcel-track-n-trace-1.1-SNAPSHOT.jar
+          deployment_package: parcel-track-n-trace-1.0-SNAPSHOT.jar
