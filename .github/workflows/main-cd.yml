@@ -1,7 +1,11 @@
- deploy:
+ name: CD
+ on:
+  push:
+    branches: [ main ]
+ jobs:
+  deploy:
     #Depends on build's job
     needs: build
-    name: CD
     #Run on Ubuntu using the latest version
     runs-on: ubuntu-latest
     steps:
