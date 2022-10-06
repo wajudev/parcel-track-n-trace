@@ -68,4 +68,4 @@ jobs:
           environment_name: Parceltrackntrace-env
           version_label: ${{github.SHA}}
           region: us-east-1
-          deployment_package: parcel-track-n-trace-1.0-SNAPSHOT.jar
+          deployment_package: parcel-track-n-trace-1.1-SNAPSHOT.jar
