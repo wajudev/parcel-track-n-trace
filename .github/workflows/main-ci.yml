@@ -65,6 +65,6 @@ jobs:
           use_existing_version_if_available: true
           application_name: bestesSWENTeam	
           environment_name: Bestesswenteam-env	
-          version_label: ${{github.SHA}}
+          version_label: parcel-track-n-trace
           region: us-east-1
           deployment_package: parcel-track-n-trace-1.0-SNAPSHOT.jar
