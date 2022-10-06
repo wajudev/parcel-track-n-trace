@@ -63,8 +63,8 @@ jobs:
           aws_secret_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws_session_token: ${{ secrets.AWS_SESSION_TOKEN }}
           use_existing_version_if_available: true
-          application_name: Bestesswenteam-env	
-          environment_name: bestesSWENTeam
+          application_name: bestesSWENTeam	
+          environment_name: Bestesswenteam-env	
           version_label: ${{github.SHA}}
           region: us-east-1
           deployment_package: parcel-track-n-trace-1.0-SNAPSHOT.jar
