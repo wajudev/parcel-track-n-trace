@@ -14,7 +14,7 @@ public interface ParcelMapper {
 
     @Mapping(source = "parcelDTO.weight",target ="weight")
     @Mapping(source = "parcelDTO.recipient",target ="sender")
-    @Mapping(source = "parcelDTO.recipient",target ="recipient")
+    @Mapping(source = "parcelDTO.sender",target ="recipient")
     @Mapping(source = "NewParcelInfoDTO.trackingId",target ="trackingId")
     @Mapping(source = "trackingInformationDTO.state",target ="state")
     @Mapping(source = "trackingInformationDTO.futureHops",target ="futureHops")
