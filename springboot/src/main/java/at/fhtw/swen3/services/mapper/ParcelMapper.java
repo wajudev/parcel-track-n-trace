@@ -1,9 +1,9 @@
 package at.fhtw.swen3.services.mapper;
 
 import at.fhtw.swen3.persistence.entity.ParcelEntity;
-import at.fhtw.swen3.services.dto.NewParcelInfoDTO;
-import at.fhtw.swen3.services.dto.ParcelDTO;
-import at.fhtw.swen3.services.dto.TrackingInformationDTO;
+import at.fhtw.swen3.services.dto.NewParcelInfo;
+import at.fhtw.swen3.services.dto.Parcel;
+import at.fhtw.swen3.services.dto.TrackingInformation;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.factory.Mappers;
@@ -19,5 +19,5 @@ public interface ParcelMapper {
     @Mapping(source = "trackingInformationDTO.state",target ="state")
     @Mapping(source = "trackingInformationDTO.futureHops",target ="futureHops")
     @Mapping(source = "trackingInformationDTO.visitedHops",target ="visitedHops")
-    ParcelEntity from(NewParcelInfoDTO newParcelInfoDTO, ParcelDTO parcelDTO, TrackingInformationDTO trackingInformationDTO);
+    ParcelEntity from(NewParcelInfo newParcelInfoDTO, Parcel parcelDTO, TrackingInformation trackingInformationDTO);
 }

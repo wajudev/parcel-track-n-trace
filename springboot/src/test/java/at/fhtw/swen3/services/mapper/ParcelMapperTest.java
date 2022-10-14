@@ -1,17 +1,12 @@
 package at.fhtw.swen3.services.mapper;
 
-import at.fhtw.swen3.persistence.HopArrival;
-import at.fhtw.swen3.persistence.Recipient;
+import at.fhtw.swen3.services.dto.*;
 import at.fhtw.swen3.persistence.entity.ParcelEntity;
-import at.fhtw.swen3.services.dto.NewParcelInfoDTO;
-import at.fhtw.swen3.services.dto.ParcelDTO;
-import at.fhtw.swen3.services.dto.TrackingInformationDTO;
 import org.junit.jupiter.api.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.test.context.SpringBootTest;
 
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -25,7 +20,7 @@ public class ParcelMapperTest {
     void dtoToEntity() {
         log.info("TEST dtoToEntity");
 
-        final ParcelDTO parcelDTO = new ParcelDTO();
+        final Parcel parcelDTO = new Parcel();
         parcelDTO.setWeight(20f);
 
         final Recipient recipient = new Recipient();
@@ -43,10 +38,10 @@ public class ParcelMapperTest {
         parcelDTO.setRecipient(recipient);
         parcelDTO.setSender(sender);
 
-        final NewParcelInfoDTO newParcelInfoDTO = new NewParcelInfoDTO();
+        final NewParcelInfo newParcelInfoDTO = new NewParcelInfo();
         newParcelInfoDTO.setTrackingId("test5");
 
-        final TrackingInformationDTO trackingInformationDTO = new TrackingInformationDTO();
+        final TrackingInformation trackingInformationDTO = new TrackingInformation();
         final List<HopArrival> visitedHops = new ArrayList<>();
         visitedHops.add(new HopArrival());
         visitedHops.add(new HopArrival());
