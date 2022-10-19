@@ -1,9 +1,9 @@
 package at.fhtw.swen3.services.mapper;
 
+import at.fhtw.swen3.persistence.entity.HopArrivalEntity;
 import at.fhtw.swen3.persistence.entity.ParcelEntity;
-import at.fhtw.swen3.services.dto.NewParcelInfo;
-import at.fhtw.swen3.services.dto.Parcel;
-import at.fhtw.swen3.services.dto.TrackingInformation;
+import at.fhtw.swen3.persistence.entity.RecipientEntity;
+import at.fhtw.swen3.services.dto.*;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.factory.Mappers;
@@ -20,4 +20,16 @@ public interface ParcelMapper {
     @Mapping(source = "trackingInformationDTO.futureHops",target ="futureHops")
     @Mapping(source = "trackingInformationDTO.visitedHops",target ="visitedHops")
     ParcelEntity from(NewParcelInfo newParcelInfoDTO, Parcel parcelDTO, TrackingInformation trackingInformationDTO);
+
+    @Mapping(source = "recipient.name", target = "name")
+    @Mapping(source = "recipient.street", target = "street")
+    @Mapping(source = "recipient.postalCode", target = "postalCode")
+    @Mapping(source = "recipient.city", target = "city")
+    @Mapping(source = "recipient.country", target = "country")
+    RecipientEntity map(Recipient recipient);
+
+    @Mapping(source = "hopArrival.code",target = "code")
+    @Mapping(source = "hopArrival.description", target = "description")
+    @Mapping(source = "hopArrival.dateTime", target = "dateTime")
+    HopArrivalEntity map(HopArrival hopArrival);
 }
