@@ -1,9 +1,8 @@
 package at.fhtw.swen3.services.mapper;
 
-import at.fhtw.swen3.persistence.entity.HopArrivalEntity;
-import at.fhtw.swen3.persistence.entity.ParcelEntity;
-import at.fhtw.swen3.persistence.entity.RecipientEntity;
+import at.fhtw.swen3.persistence.entity.*;
 import at.fhtw.swen3.services.dto.*;
+import at.fhtw.swen3.services.dto.Error;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.factory.Mappers;
@@ -32,4 +31,11 @@ public interface ParcelMapper {
     @Mapping(source = "hopArrival.description", target = "description")
     @Mapping(source = "hopArrival.dateTime", target = "dateTime")
     HopArrivalEntity map(HopArrival hopArrival);
+
+    @Mapping(source = "error.errorMessage", target = "errorMessage")
+    ErrorEntity map(Error error);
+
+    @Mapping(source = "geoCoordinate.lat",target = "lat")
+    @Mapping(source = "geoCoordinate.lon",target = "lon")
+    GeorCoordinateEntity map(GeoCoordinate geoCoordinate);
 }
