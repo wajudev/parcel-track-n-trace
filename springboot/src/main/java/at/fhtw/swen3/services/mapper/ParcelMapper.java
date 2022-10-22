@@ -20,22 +20,11 @@ public interface ParcelMapper {
     @Mapping(source = "trackingInformationDTO.visitedHops",target ="visitedHops")
     ParcelEntity from(NewParcelInfo newParcelInfoDTO, Parcel parcelDTO, TrackingInformation trackingInformationDTO);
 
-    @Mapping(source = "recipient.name", target = "name")
-    @Mapping(source = "recipient.street", target = "street")
-    @Mapping(source = "recipient.postalCode", target = "postalCode")
-    @Mapping(source = "recipient.city", target = "city")
-    @Mapping(source = "recipient.country", target = "country")
+
     RecipientEntity map(Recipient recipient);
 
-    @Mapping(source = "hopArrival.code",target = "code")
-    @Mapping(source = "hopArrival.description", target = "description")
-    @Mapping(source = "hopArrival.dateTime", target = "dateTime")
     HopArrivalEntity map(HopArrival hopArrival);
 
-    @Mapping(source = "error.errorMessage", target = "errorMessage")
     ErrorEntity map(Error error);
-
-    @Mapping(source = "geoCoordinate.lat",target = "lat")
-    @Mapping(source = "geoCoordinate.lon",target = "lon")
     GeorCoordinateEntity map(GeoCoordinate geoCoordinate);
 }

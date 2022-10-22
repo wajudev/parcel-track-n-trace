@@ -13,9 +13,7 @@ import java.util.List;
 @Setter
 @Getter
 public class WarehouseEntity extends HopEntity{
-
     private Integer level;
-
     @OneToMany
     private List<WarehousNextHopsEntity> nextHops = new ArrayList<>();
 }
