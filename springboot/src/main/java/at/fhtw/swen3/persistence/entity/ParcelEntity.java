@@ -39,7 +39,7 @@ public class ParcelEntity {
     private TrackingInformation.StateEnum state;
 
     @NotNull
-    @Pattern(regexp = "^[A-Z]{4}\\d{1,4}$", message = "Falsches FutureHopPattern Pattern")
+   // @Pattern(regexp = "^[A-Z]{4}\\d{1,4}$", message = "Falsches FutureHopPattern Pattern")
     @Column
     @OneToMany
     private List<HopArrivalEntity> futureHops = new ArrayList<>();
@@ -47,7 +47,7 @@ public class ParcelEntity {
     @NotNull
     @Column
     @OneToMany
-    @Pattern(regexp = "^[A-Z]{4}\\d{1,4}$", message = "Falsches VisitedHopPattern Pattern")
+   // @Pattern(regexp = "^[A-Z]{4}\\d{1,4}$", message = "Falsches VisitedHopPattern Pattern")
     private List<HopArrivalEntity> visitedHops = new ArrayList<>();
 
 }
