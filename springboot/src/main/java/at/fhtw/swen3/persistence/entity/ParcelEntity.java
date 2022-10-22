@@ -1,9 +1,7 @@
 package at.fhtw.swen3.persistence.entity;
 
-import at.fhtw.swen3.services.dto.HopArrival;
-import at.fhtw.swen3.services.dto.Recipient;
+
 import at.fhtw.swen3.services.dto.TrackingInformation;
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -39,7 +37,6 @@ public class ParcelEntity {
     private TrackingInformation.StateEnum state;
 
     @NotNull
-   // @Pattern(regexp = "^[A-Z]{4}\\d{1,4}$", message = "Falsches FutureHopPattern Pattern")
     @Column
     @OneToMany
     private List<HopArrivalEntity> futureHops = new ArrayList<>();
@@ -47,7 +44,6 @@ public class ParcelEntity {
     @NotNull
     @Column
     @OneToMany
-   // @Pattern(regexp = "^[A-Z]{4}\\d{1,4}$", message = "Falsches VisitedHopPattern Pattern")
     private List<HopArrivalEntity> visitedHops = new ArrayList<>();
 
 }
