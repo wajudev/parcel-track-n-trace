@@ -7,14 +7,18 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import javax.validation.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
 public class ParcelMapperTest {
     private static final Logger log = LoggerFactory.getLogger(ParcelMapperTest.class);
+    private final ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
+    private final Validator validator = factory.getValidator();
 
     @Test
     void dtoToEntity() {
@@ -39,7 +43,7 @@ public class ParcelMapperTest {
         parcelDTO.setSender(sender);
 
         final NewParcelInfo newParcelInfoDTO = new NewParcelInfo();
-        newParcelInfoDTO.setTrackingId("test5");
+        newParcelInfoDTO.setTrackingId("QWERTZUIO");
 
         final TrackingInformation trackingInformationDTO = new TrackingInformation();
         final List<HopArrival> visitedHops = new ArrayList<>();
@@ -57,9 +61,15 @@ public class ParcelMapperTest {
         ParcelEntity entity;
         entity=mapper.from(newParcelInfoDTO,parcelDTO,trackingInformationDTO);
 
+        Set<ConstraintViolation<ParcelEntity>> violations = validator.validate(entity);
+        for (ConstraintViolation<ParcelEntity> violation: violations) {
+            System.out.printf(violation.getMessage());
+            assertNotEquals(1, 1); //If validation fails, then the test should fail
+        }
+
         assertEquals(parcelDTO.getWeight(), entity.getWeight());
         assertEquals(newParcelInfoDTO.getTrackingId(), entity.getTrackingId());
-
+        assertEquals(trackingInformationDTO.getVisitedHops().get(0).getCode(),entity.getVisitedHops().get(0).getCode());
 
     }
 }
