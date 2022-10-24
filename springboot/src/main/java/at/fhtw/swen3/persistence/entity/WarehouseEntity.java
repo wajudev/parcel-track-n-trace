@@ -1,6 +1,5 @@
 package at.fhtw.swen3.persistence.entity;
 
-import at.fhtw.swen3.services.dto.WarehouseNextHops;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -15,5 +14,5 @@ import java.util.List;
 public class WarehouseEntity extends HopEntity{
     private Integer level;
     @OneToMany
-    private List<WarehousNextHopsEntity> nextHops = new ArrayList<>();
+    private List<WarehouseNextHopsEntity> nextHops = new ArrayList<>();
 }
