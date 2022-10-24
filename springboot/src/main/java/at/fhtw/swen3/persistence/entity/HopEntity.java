@@ -7,6 +7,7 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.OneToOne;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 
 @Entity
@@ -19,6 +20,7 @@ public class HopEntity {
 
     @Id
     @Column
+    @Pattern(regexp = "^[A-Z]{4}\\d{1,4}$")
     private String code;
 
     @Column
@@ -33,5 +35,6 @@ public class HopEntity {
 
     @OneToOne
     @Column
-    private GeorCoordinateEntity locationCoordinates;
+    @NotNull
+    private GeoCoordinateEntity locationCoordinates;
 }

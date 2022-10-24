@@ -26,5 +26,5 @@ public interface ParcelMapper {
     HopArrivalEntity map(HopArrival hopArrival);
 
     ErrorEntity map(Error error);
-    GeorCoordinateEntity map(GeoCoordinate geoCoordinate);
+    GeoCoordinateEntity map(GeoCoordinate geoCoordinate);
 }

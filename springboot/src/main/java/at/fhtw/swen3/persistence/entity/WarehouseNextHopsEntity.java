@@ -8,7 +8,7 @@ import javax.persistence.*;
 @Entity
 @Setter
 @Getter
-public class WarehousNextHopsEntity {
+public class WarehouseNextHopsEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)

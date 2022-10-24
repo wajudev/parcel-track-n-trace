@@ -1,6 +1,6 @@
 package at.fhtw.swen3.services.mapper;
 
-import at.fhtw.swen3.persistence.entity.GeorCoordinateEntity;
+import at.fhtw.swen3.persistence.entity.GeoCoordinateEntity;
 import at.fhtw.swen3.services.dto.*;
 import org.junit.jupiter.api.Test;
 import org.slf4j.Logger;
@@ -16,16 +16,16 @@ public class GeoCoordinateMapperTest {
 
     @Test
     void entityToDto() {
-        final GeorCoordinateEntity georCoordinateEntity = new GeorCoordinateEntity();
-        georCoordinateEntity.setLat(10.33334);
-        georCoordinateEntity.setLon(-38.976);
+        final GeoCoordinateEntity geoCoordinateEntity = new GeoCoordinateEntity();
+        geoCoordinateEntity.setLat(10.33334);
+        geoCoordinateEntity.setLon(-38.976);
 
         final GeoCoordinateMapper mapper = GeoCoordinateMapper.INSTANCE;
 
-        final GeoCoordinate geoCoordinateDto = mapper.entityToDto(georCoordinateEntity);
+        final GeoCoordinate geoCoordinateDto = mapper.entityToDto(geoCoordinateEntity);
 
-        assertEquals(georCoordinateEntity.getLat(),geoCoordinateDto.getLat());
-        assertEquals(georCoordinateEntity.getLon(),geoCoordinateDto.getLon());
+        assertEquals(geoCoordinateEntity.getLat(),geoCoordinateDto.getLat());
+        assertEquals(geoCoordinateEntity.getLon(),geoCoordinateDto.getLon());
 
     }
 }

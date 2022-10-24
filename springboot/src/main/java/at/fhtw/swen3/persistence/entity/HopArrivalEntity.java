@@ -6,6 +6,7 @@ import lombok.Setter;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 import java.time.OffsetDateTime;
 
@@ -19,6 +20,7 @@ public class HopArrivalEntity {
 
     private String description;
 
+    @NotNull
     private OffsetDateTime dateTime;
 
 }
