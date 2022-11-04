@@ -15,6 +15,7 @@ import java.util.List;
 @Getter
 @Setter
 @Entity
+@Table
 public class ParcelEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -30,11 +31,13 @@ public class ParcelEntity {
 
     @NotNull
     @Column
+    @JoinColumn
     @OneToOne
     private RecipientEntity recipient;
 
     @NotNull
     @Column
+    @JoinColumn
     @OneToOne
     private RecipientEntity sender;
     private TrackingInformation.StateEnum state;

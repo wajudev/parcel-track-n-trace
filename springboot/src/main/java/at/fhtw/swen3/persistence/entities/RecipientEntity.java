@@ -3,17 +3,19 @@ package at.fhtw.swen3.persistence.entities;
 import lombok.Getter;
 import lombok.Setter;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
+import javax.persistence.*;
 import javax.validation.constraints.Pattern;
 
 @Entity
 @Setter
 @Getter
+@Table
 public class RecipientEntity {
-
     @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "id", nullable = false)
+    private Long id;
+
     @Column
     @Pattern(regexp = "\\w+")
     private String name;
