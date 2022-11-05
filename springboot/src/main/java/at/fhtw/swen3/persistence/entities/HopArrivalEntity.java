@@ -12,7 +12,7 @@ import java.time.OffsetDateTime;
 @Entity
 @Setter
 @Getter
-@Table
+@Table(name = "HopArrival")
 public class HopArrivalEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)

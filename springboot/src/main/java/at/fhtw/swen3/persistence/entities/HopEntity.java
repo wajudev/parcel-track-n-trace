@@ -10,7 +10,6 @@ import javax.validation.constraints.Pattern;
 @Entity
 @Setter
 @Getter
-@Table
 public class HopEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -35,7 +34,7 @@ public class HopEntity {
     private String locationName;
 
     @OneToOne
-    @Column
+    @JoinColumn
     @NotNull
     private GeoCoordinateEntity locationCoordinates;
 }
