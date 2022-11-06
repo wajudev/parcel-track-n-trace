@@ -11,6 +11,10 @@ public class ParcelServiceImpl implements ParcelService {
     @Autowired
     private ParcelRepository parcelRepository;
 
+    public ParcelServiceImpl(ParcelRepository parcelRepository) {
+        this.parcelRepository = parcelRepository;
+    }
+
     public List<ParcelEntity> getAllParcel(){
         return parcelRepository.findAll();
     }
