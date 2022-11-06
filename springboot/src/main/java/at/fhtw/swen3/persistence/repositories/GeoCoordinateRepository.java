@@ -1,4 +1,4 @@
 package at.fhtw.swen3.persistence.repositories;
 
-public class GeoCoordinateRepository {
+public interface GeoCoordinateRepository {
 }
