@@ -17,7 +17,7 @@ public class ParcelRepositoryTest {
     @Autowired
     private ParcelRepository parcelRepository;
 
-    @Test
+    //@Test
     void insertParcel(){
 
         final ParcelEntity parcel = new ParcelEntity();
