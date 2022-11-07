@@ -19,12 +19,15 @@ public class HopArrivalEntity {
     @Column(name = "id", nullable = false)
     private Long id;
 
+    @Column(name = "code")
     @Pattern(regexp = "^[A-Z]{4}\\d{1,4}$", message = "Falsches FutureHopPattern Pattern")
     private String code;
-
+    @Column(name = "description")
     private String description;
 
+
     @NotNull
+    @Column(name = "dateTime")
     private OffsetDateTime dateTime;
 
 }

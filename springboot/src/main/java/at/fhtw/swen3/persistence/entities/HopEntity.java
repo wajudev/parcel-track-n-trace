@@ -10,6 +10,7 @@ import javax.validation.constraints.Pattern;
 @Entity
 @Setter
 @Getter
+@Table(name = "Hop")
 public class HopEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
