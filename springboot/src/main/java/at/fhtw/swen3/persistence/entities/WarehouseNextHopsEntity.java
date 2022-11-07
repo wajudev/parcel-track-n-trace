@@ -15,6 +15,7 @@ public class WarehouseNextHopsEntity {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
+    @Column
     private Integer traveltimeMins;
 
     @OneToOne

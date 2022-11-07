@@ -19,10 +19,12 @@ public class WarehouseEntity extends HopEntity{
     @Column(name = "id", nullable = false)
     private Long id;
 
+    @Column
     private Integer level;
     @OneToMany
     @NotNull
     private List<WarehouseNextHopsEntity> nextHops = new ArrayList<>();
 
+    @Column
     private String hop;
 }

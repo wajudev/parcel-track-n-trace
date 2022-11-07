@@ -26,18 +26,21 @@ public class ParcelEntity {
     @Pattern(regexp = "^[A-Z0-9]{9}$", message = "Falsches trackingID Pattern")
     private String trackingId;
 
-    @DecimalMin(value = "0.0", message = "Gewicht kann nicht < 0.0 sein")
+    @Column
+    @DecimalMin(value = "0.1", message = "Gewicht kann nicht <= 0.0 sein")
     private Float weight;
 
     @NotNull
     @JoinColumn
-    @OneToOne
+    @ManyToOne
     private RecipientEntity recipient;
 
     @NotNull
     @JoinColumn
-    @OneToOne
+    @ManyToOne
     private RecipientEntity sender;
+
+    @Column
     private TrackingInformation.StateEnum state;
 
     @NotNull
