@@ -14,20 +14,15 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 
-
 @Slf4j
-@AllArgsConstructor
+@Service
+@RequiredArgsConstructor
 public class ParcelServiceImpl implements ParcelService {
 
-    ParcelRepository parcelRepository;
-    RecipientRepository recipientRepository;
+    private final ParcelRepository parcelRepository;
+    private final RecipientRepository recipientRepository;
 
-    public ParcelServiceImpl(){
-    }
-
-
-
-    public List<ParcelEntity> getAllParcel(){
+    public List<ParcelEntity> getAllParcel() {
         return parcelRepository.findAll();
     }
 
