@@ -14,7 +14,7 @@ import javax.annotation.Generated;
 /**
  * Recipient
  */
-@Entity(name = "test")
+//@Entity(name = "test")
 @JsonTypeName("recipient")
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2022-09-22T22:59:08.396768Z[Etc/UTC]")
 public class Recipient {

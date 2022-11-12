@@ -10,10 +10,9 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 
-@SpringBootApplication(exclude = {DataSourceAutoConfiguration.class })
-@ComponentScan(basePackages = {"org.openapitools", "at.fhtw.swen3.services" , "at.fhtw.swen3.configuration"})
-@EntityScan(basePackages = {"at.fhtw.swen3.persistence" })
-//@EnableJpaRepositories
+@SpringBootApplication()
+@ComponentScan(basePackages = {"org.openapitools", "at.fhtw.swen3.services" , "at.fhtw.swen3.configuration",
+        "at.fhtw.swen3.persistence.repositories","at.fhtw.swen3.controller"})
 public class OpenApiGeneratorApplication {
 
     public static void main(String[] args) {

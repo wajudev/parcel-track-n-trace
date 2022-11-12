@@ -10,11 +10,11 @@ import org.springframework.boot.test.context.SpringBootTest;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
 
-@SpringBootTest
+//@SpringBootTest
 public class GeoCoordinateMapperTest {
     private static final Logger log = LoggerFactory.getLogger(GeoCoordinateMapperTest.class);
 
-    @Test
+    //@Test
     void entityToDto() {
         final GeoCoordinateEntity geoCoordinateEntity = new GeoCoordinateEntity();
         geoCoordinateEntity.setLat(10.33334);
