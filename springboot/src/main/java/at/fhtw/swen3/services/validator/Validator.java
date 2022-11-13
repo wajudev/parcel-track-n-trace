@@ -14,6 +14,8 @@ public class Validator {
         violations.forEach(v -> log.error(v.getMessage()));
         if (!violations.isEmpty()) {
             throw new ConstraintViolationException(violations);
+        }else {
+            log.info(o.getClass() +" successfully validated");
         }
     }
 }
