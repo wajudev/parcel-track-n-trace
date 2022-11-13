@@ -26,9 +26,9 @@ jobs:
     - name: Step 3 - Let Github build with Maven project
       run: mvn -B package --file pom.xml
       env:
-         db-url: ${{ secrets.DB_URL }}
-         db-username: ${{ secrets.DB_USERNAME }}
-         db-password: ${{ secrets.DB_PASSWORD }}
+         db-url: ${{ secrets.POSTGRES_URL }}
+         db-username: ${{ secrets.POSTGRES_USER }}
+         db-password: ${{ secrets.POSTGRES_PASSWORD }}
     
     - name: Step 4 - List the current directory
       run: ls -a
