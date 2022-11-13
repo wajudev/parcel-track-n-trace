@@ -35,7 +35,7 @@ public class ParcelServiceImpl implements ParcelService {
     }
     @Override
     public RecipientEntity findRecipient(String name) {
-        log.info("Looking for recipient with name: "+name+" in DB");
+        log.info("Looking for recipient with name: " + name + " in DB");
         return recipientRepository.findByName(name);
     }
 
