@@ -2,12 +2,12 @@ package at.fhtw.swen3.services.mapper;
 
 import at.fhtw.swen3.services.dto.*;
 import at.fhtw.swen3.persistence.entities.ParcelEntity;
+import at.fhtw.swen3.services.validator.Validator;
 import org.junit.jupiter.api.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.test.context.SpringBootTest;
 
-import javax.validation.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
@@ -17,10 +17,9 @@ import static org.junit.jupiter.api.Assertions.*;
 //@SpringBootTest
 public class ParcelMapperTest {
     private static final Logger log = LoggerFactory.getLogger(ParcelMapperTest.class);
-    private final ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
-    private final Validator validator = factory.getValidator();
+    private final Validator validator = new Validator();
 
-   // @Test
+   @Test
     void dtoToEntity() {
         log.info("TEST dtoToEntity");
 
@@ -60,12 +59,8 @@ public class ParcelMapperTest {
         final ParcelMapper mapper = ParcelMapper.INSTANCE;
         ParcelEntity entity;
         entity=mapper.from(newParcelInfoDTO,parcelDTO,trackingInformationDTO);
+        validator.validate(entity);
 
-        Set<ConstraintViolation<ParcelEntity>> violations = validator.validate(entity);
-        for (ConstraintViolation<ParcelEntity> violation: violations) {
-            System.out.printf(violation.getMessage());
-            assertNotEquals(1, 1); //If validation fails, then the test should fail
-        }
 
         assertEquals(parcelDTO.getWeight(), entity.getWeight());
         assertEquals(newParcelInfoDTO.getTrackingId(), entity.getTrackingId());

@@ -44,12 +44,12 @@ public class ParcelEntity {
     private TrackingInformation.StateEnum state;
 
     @NotNull
-    @Column
+    @JoinColumn(name = "hop_arrival")
     @OneToMany
     private List<HopArrivalEntity> futureHops = new ArrayList<>();
 
     @NotNull
-    @Column
+    @JoinColumn(name = "hop_arrival")
     @OneToMany
     private List<HopArrivalEntity> visitedHops = new ArrayList<>();
 

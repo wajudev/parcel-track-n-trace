@@ -4,6 +4,8 @@ import at.fhtw.swen3.persistence.entities.HopArrivalEntity;
 import at.fhtw.swen3.persistence.entities.ParcelEntity;
 import at.fhtw.swen3.persistence.entities.RecipientEntity;
 import at.fhtw.swen3.services.dto.*;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -16,21 +18,22 @@ public class ParcelRepositoryTest {
 
     @Autowired
     private ParcelRepository parcelRepository;
+    final ParcelEntity parcel = new ParcelEntity();
+    final RecipientEntity recipient = new RecipientEntity();
+    final RecipientEntity sender = new RecipientEntity();
 
+    //@BeforeAll
+    void init(){
 
-   // @Test
-    void insertParcel(){
-
-        final ParcelEntity parcel = new ParcelEntity();
         parcel.setWeight(20f);
 
-        final RecipientEntity recipient = new RecipientEntity();
+
         recipient.setCity("Vienna");
         recipient.setCountry("Austria");
         recipient.setStreet("Höchstädplatz");
         recipient.setPostalCode("1200");
 
-        final RecipientEntity sender = new RecipientEntity();
+
         sender.setCity("Vienna");
         sender.setCountry("Austria");
         sender.setStreet("Gerhardusgasse");
@@ -51,7 +54,11 @@ public class ParcelRepositoryTest {
 
         parcel.setVisitedHops(visitedHops);
         parcel.setFutureHops(futureHops);
+    }
 
+   // @Test
+    void insertParcel(){
         parcelRepository.save(parcel);
     }
+
 }
