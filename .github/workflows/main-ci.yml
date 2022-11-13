@@ -24,12 +24,12 @@ jobs:
         cache: 'maven'
 
     - name: Step 3 - Let Github build with Maven project
-      run: mvn -B package --file pom.xml
       env:
          db-url: ${{ secrets.POSTGRES_URL }}
          db-username: ${{ secrets.POSTGRES_USER }}
          db-password: ${{ secrets.POSTGRES_PASSWORD }}
-    
+      run: mvn clean install
+      
     - name: Step 4 - List the current directory
       run: ls -a
 
