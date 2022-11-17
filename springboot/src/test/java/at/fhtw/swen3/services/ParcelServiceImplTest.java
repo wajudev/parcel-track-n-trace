@@ -60,7 +60,7 @@ public class ParcelServiceImplTest {
     }
 
 
-   // @Test
+    @Test
     void insertParcel(){
 
 

@@ -6,8 +6,11 @@ import at.fhtw.swen3.services.dto.Error;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.factory.Mappers;
+import org.springframework.context.annotation.Bean;
+import org.springframework.stereotype.Service;
 
 @Mapper
+@Service
 public interface ParcelMapper {
     ParcelMapper INSTANCE = Mappers.getMapper(ParcelMapper.class);
 
@@ -20,6 +23,7 @@ public interface ParcelMapper {
     @Mapping(source = "trackingInformationDTO.visitedHops",target ="visitedHops")
     ParcelEntity from(NewParcelInfo newParcelInfoDTO, Parcel parcelDTO, TrackingInformation trackingInformationDTO);
 
+    ParcelEntity map(Parcel parcel);
 
     RecipientEntity map(Recipient recipient);
 

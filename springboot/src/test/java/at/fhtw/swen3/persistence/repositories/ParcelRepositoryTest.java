@@ -22,7 +22,7 @@ public class ParcelRepositoryTest {
     final RecipientEntity recipient = new RecipientEntity();
     final RecipientEntity sender = new RecipientEntity();
 
-    //@BeforeAll
+    @BeforeAll
     void init(){
 
         parcel.setWeight(20f);
@@ -56,7 +56,7 @@ public class ParcelRepositoryTest {
         parcel.setFutureHops(futureHops);
     }
 
-   // @Test
+    @Test
     void insertParcel(){
         parcelRepository.save(parcel);
     }

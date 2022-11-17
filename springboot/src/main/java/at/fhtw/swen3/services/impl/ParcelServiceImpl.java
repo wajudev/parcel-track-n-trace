@@ -5,9 +5,13 @@ import at.fhtw.swen3.persistence.entities.RecipientEntity;
 import at.fhtw.swen3.persistence.repositories.ParcelRepository;
 import at.fhtw.swen3.persistence.repositories.RecipientRepository;
 import at.fhtw.swen3.services.ParcelService;
+import at.fhtw.swen3.services.dto.Parcel;
+import at.fhtw.swen3.services.mapper.ParcelMapper;
+import at.fhtw.swen3.services.validator.Validator;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
+import javax.validation.Validation;
 import java.util.List;
 
 
@@ -17,15 +21,25 @@ public class ParcelServiceImpl implements ParcelService {
 
     private final ParcelRepository parcelRepository;
     private final RecipientRepository recipientRepository;
+    private final Validator validator;
+
 
     public List<ParcelEntity> getAllParcel() {
         return parcelRepository.findAll();
     }
 
     @Override
-    public void submitParcel(ParcelEntity newParcel) {
-        log.info("Saving new parcel in DB");
-        parcelRepository.save(newParcel);
+    public boolean submitParcel(ParcelEntity newParcel) {
+        try {
+            log.info("Validating new parcel");
+            validator.validate(newParcel);
+            log.info("Saving new parcel in DB");
+            parcelRepository.save(newParcel);
+            return true;
+        }catch (Exception e){
+            return false;
+        }
+
     }
 
     @Override
