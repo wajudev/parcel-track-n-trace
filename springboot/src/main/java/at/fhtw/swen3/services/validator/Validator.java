@@ -12,13 +12,16 @@ public class Validator {
     private final ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
     private final javax.validation.Validator validator = factory.getValidator();
 
-    public <T> void validate(T o) {
+    public <T> boolean validate(T o) {
         Set<ConstraintViolation<T>> violations = validator.validate(o);
         violations.forEach(v -> log.error(v.getMessage()));
         if (!violations.isEmpty()) {
-            throw new ConstraintViolationException(violations);
+            log.error("Failed to validate "+o.getClass());
+            return false;
+            //throw new ConstraintViolationException(violations);
         }else {
             log.info(o.getClass() +" successfully validated");
+            return true;
         }
     }
 }
