@@ -36,21 +36,21 @@ public class ParcelEntity {
     private RecipientEntity recipient;
 
     @NotNull
-    @JoinColumn
+    @JoinColumn(name = "sender_id")
     @ManyToOne
     private RecipientEntity sender;
 
     @Column
     private TrackingInformation.StateEnum state;
 
-    @NotNull
+   // @NotNull
     @JoinColumn(name = "hop_arrival_id")
-    @OneToMany
-    private List<HopArrivalEntity> futureHops = new ArrayList<>();
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<HopArrivalEntity> futureHops;
 
-    @NotNull
+   // @NotNull
     @JoinColumn(name = "hop_arrival_id")
-    @OneToMany
-    private List<HopArrivalEntity> visitedHops = new ArrayList<>();
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<HopArrivalEntity> visitedHops;
 
 }

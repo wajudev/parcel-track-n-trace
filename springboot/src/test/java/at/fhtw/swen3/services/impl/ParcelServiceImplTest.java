@@ -69,7 +69,7 @@ public class ParcelServiceImplTest {
 
         parcelService.submitParcel(parcel);
     }
-    @Test
+    //@Test
     void insertRecipient(){
         parcelService.createRecipient(recipient);
         RecipientEntity foundRecipient = parcelService.findRecipient(recipient.getName());

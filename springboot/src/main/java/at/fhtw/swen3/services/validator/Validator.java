@@ -14,7 +14,7 @@ public class Validator {
 
     public <T> boolean validate(T o) {
         Set<ConstraintViolation<T>> violations = validator.validate(o);
-        violations.forEach(v -> log.error(v.getMessage()));
+        violations.forEach(v -> log.error(v.toString()));
         if (!violations.isEmpty()) {
             log.error("Failed to validate "+o.getClass());
             return false;
