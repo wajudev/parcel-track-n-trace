@@ -9,7 +9,7 @@ import javax.validation.constraints.Pattern;
 @Entity
 @Setter
 @Getter
-@Table(name = "Recipient")
+@Table(name = "recipient")
 public class RecipientEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
