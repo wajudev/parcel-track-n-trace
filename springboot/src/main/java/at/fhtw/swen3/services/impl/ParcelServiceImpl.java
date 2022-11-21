@@ -34,6 +34,11 @@ public class ParcelServiceImpl implements ParcelService {
     @Override
     public boolean submitParcel(ParcelEntity newParcel) {
         try {
+            newParcel.setId(1325L);
+            newParcel.setState(TrackingInformation.StateEnum.DELIVERED);
+            newParcel.setWeight(20f);
+            newParcel.setRecipient(newParcel.getRecipient());
+            newParcel.setRecipient(newParcel.getSender());
             newParcel.setTrackingId("QWERTZUIO");
             List<HopArrivalEntity> visitedHops = new ArrayList<>();
             HopArrivalEntity visitedHop = new HopArrivalEntity();

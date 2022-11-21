@@ -20,13 +20,15 @@ import javax.annotation.Generated;
 @Controller
 public class ParcelApiController implements ParcelApi {
 
-    private final NativeWebRequest request;
+    private NativeWebRequest request;
 
-    private final ParcelService parcelService;
+    private ParcelService parcelService;
 
-    @Autowired
-    public ParcelApiController(NativeWebRequest request, ParcelService parcelService) {
+    public ParcelApiController(NativeWebRequest request){
         this.request = request;
+    }
+    @Autowired
+    public ParcelApiController(ParcelService parcelService) {
         this.parcelService = parcelService;
     }
 

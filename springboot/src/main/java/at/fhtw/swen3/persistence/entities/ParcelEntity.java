@@ -37,7 +37,7 @@ public class ParcelEntity {
 
     @NotNull
     @JoinColumn(name = "sender_id")
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     private RecipientEntity sender;
 
     @Column

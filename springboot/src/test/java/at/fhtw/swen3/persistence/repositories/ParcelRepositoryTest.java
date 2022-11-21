@@ -8,22 +8,26 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
+import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import java.util.ArrayList;
 import java.util.List;
 
-@SpringBootTest(classes = ParcelRepository.class)
+
+@DataJpaTest
+@AutoConfigureTestDatabase(replace= AutoConfigureTestDatabase.Replace.NONE)
 public class ParcelRepositoryTest {
 
     @Autowired
     private ParcelRepository parcelRepository;
-    final ParcelEntity parcel = new ParcelEntity();
-    final RecipientEntity recipient = new RecipientEntity();
-    final RecipientEntity sender = new RecipientEntity();
+    final static ParcelEntity parcel = new ParcelEntity();
+    final static RecipientEntity recipient = new RecipientEntity();
+    final static RecipientEntity sender = new RecipientEntity();
 
     @BeforeAll
-    void init(){
+    static void init(){
 
         parcel.setWeight(20f);
 
@@ -56,7 +60,7 @@ public class ParcelRepositoryTest {
         parcel.setFutureHops(futureHops);
     }
 
-    //@Test
+    @Test
     void insertParcel(){
         parcelRepository.save(parcel);
     }
