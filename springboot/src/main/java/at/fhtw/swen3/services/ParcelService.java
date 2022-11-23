@@ -5,6 +5,7 @@ import at.fhtw.swen3.persistence.entities.RecipientEntity;
 import at.fhtw.swen3.persistence.repositories.ParcelRepository;
 import at.fhtw.swen3.services.dto.NewParcelInfo;
 import at.fhtw.swen3.services.dto.Parcel;
+import at.fhtw.swen3.services.dto.TrackingInformation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.stereotype.Service;
@@ -23,5 +24,7 @@ public interface ParcelService {
     ParcelEntity getTrackingInformation(String trackingId);
 
     void deleteEntity(String name);
+
+    TrackingInformation findParcel(String trackingId);
 
 }

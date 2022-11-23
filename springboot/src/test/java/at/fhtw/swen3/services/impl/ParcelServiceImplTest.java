@@ -61,8 +61,8 @@ public class ParcelServiceImplTest {
     @Test
     void insertParcel(){
 
-        parcelService.createRecipient(recipient);
-        parcelService.createRecipient(sender);
+        //parcelService.createRecipient(recipient);
+        //parcelService.createRecipient(sender);
 
         parcelService.submitParcel(parcel);
     }

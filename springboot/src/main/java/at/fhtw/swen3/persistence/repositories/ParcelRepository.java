@@ -12,6 +12,7 @@ import java.util.List;
 @Repository
 public interface ParcelRepository extends JpaRepository<ParcelEntity, Long> {
    ParcelEntity findById(long id);
+   ParcelEntity findByTrackingId(String id);
 
 
 }

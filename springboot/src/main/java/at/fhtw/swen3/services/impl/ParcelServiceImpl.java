@@ -6,6 +6,7 @@ import at.fhtw.swen3.persistence.repositories.ParcelRepository;
 import at.fhtw.swen3.persistence.repositories.RecipientRepository;
 import at.fhtw.swen3.services.ParcelService;
 import at.fhtw.swen3.services.dto.NewParcelInfo;
+import at.fhtw.swen3.services.dto.TrackingInformation;
 import at.fhtw.swen3.services.validator.Validator;
 import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
@@ -39,8 +40,21 @@ public class ParcelServiceImpl implements ParcelService {
     public NewParcelInfo submitParcel(ParcelEntity newParcel) {
         log.info("Saving new Parcel in DB");
         validator.validate(newParcel);
+        createRecipient(newParcel.getRecipient());
+        createRecipient(newParcel.getSender());
         parcelRepository.save(newParcel);
         return dummyNewParcelInfo();
+    }
+
+    public TrackingInformation findParcel(String trackingId) {
+        log.info("Searching for Parcel in DB");
+        ParcelEntity entity = parcelRepository.findByTrackingId(trackingId);
+        if(entity != null){
+            TrackingInformation trackingInformation = new TrackingInformation();
+            trackingInformation.setState(entity.getState());
+            return trackingInformation;
+        }
+        return null;
     }
 
     private NewParcelInfo dummyNewParcelInfo() {
