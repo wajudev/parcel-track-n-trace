@@ -14,16 +14,13 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class AppConfig {
     @Bean
-    public ParcelServiceImpl parcelServiceImpl(ParcelRepository parcelRepository,
-                                               RecipientRepository recipientRepository, Validator validator) {
-        return new ParcelServiceImpl(parcelRepository, recipientRepository, validator);
+    public ParcelServiceImpl parcelServiceImpl() {
+        return new ParcelServiceImpl();
     }
 
     @Bean
-    public WarehouseServiceImpl warehouseServiceImpl(WarehouseRepository warehouseRepository,
-                                                     RecipientRepository recipientRepository,
-                                                     Validator validator){
-        return new WarehouseServiceImpl(warehouseRepository, recipientRepository, validator);
+    public WarehouseServiceImpl warehouseServiceImpl(){
+        return new WarehouseServiceImpl();
     }
 
 

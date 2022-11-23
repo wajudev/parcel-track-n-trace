@@ -19,17 +19,16 @@ import javax.annotation.Generated;
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2022-09-22T22:59:08.396768Z[Etc/UTC]")
 @Controller
 public class ParcelApiController implements ParcelApi {
-
+    @Autowired
     private NativeWebRequest request;
 
+    @Autowired
     private ParcelService parcelService;
 
-    public ParcelApiController(NativeWebRequest request){
-        this.request = request;
-    }
     @Autowired
-    public ParcelApiController(ParcelService parcelService) {
+    public ParcelApiController(NativeWebRequest request, ParcelService parcelService) {
         this.parcelService = parcelService;
+        this.request = request;
     }
 
     @Override
@@ -37,14 +36,15 @@ public class ParcelApiController implements ParcelApi {
         return Optional.ofNullable(request);
     }
 
+    @Override
     public ResponseEntity<NewParcelInfo> submitParcel(Parcel parcel){
         ParcelEntity parcelEntity = ParcelMapper.INSTANCE.map(parcel);
 
-        if(parcelService.submitParcel(parcelEntity)){
-            return new ResponseEntity<>(HttpStatus.CREATED);
-        }
+        NewParcelInfo newParcelInfo = parcelService.submitParcel(parcelEntity);
 
-        return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        return Optional.ofNullable(newParcelInfo)
+                .map(value -> ResponseEntity.status(HttpStatus.CREATED).body(value))
+                .orElse(ResponseEntity.notFound().build());
     }
 
 }

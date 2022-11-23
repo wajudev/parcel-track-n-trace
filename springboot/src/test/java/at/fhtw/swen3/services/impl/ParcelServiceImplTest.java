@@ -63,7 +63,6 @@ public class ParcelServiceImplTest {
     @Test
     void insertParcel(){
 
-
         parcelService.createRecipient(recipient);
         parcelService.createRecipient(sender);
 

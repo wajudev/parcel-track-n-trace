@@ -31,13 +31,13 @@ public class ParcelEntity {
     private Float weight;
 
     @NotNull
-    @JoinColumn
-    @ManyToOne
+    @JoinColumn(name = "recipient_id")
+    @ManyToOne(cascade = CascadeType.MERGE)
     private RecipientEntity recipient;
 
     @NotNull
     @JoinColumn(name = "sender_id")
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne(cascade = CascadeType.MERGE)
     private RecipientEntity sender;
 
     @Column

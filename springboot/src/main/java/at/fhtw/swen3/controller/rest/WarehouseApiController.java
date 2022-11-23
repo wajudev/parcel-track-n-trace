@@ -4,6 +4,7 @@ package at.fhtw.swen3.controller.rest;
 import at.fhtw.swen3.controller.WarehouseApi;
 import at.fhtw.swen3.services.ParcelService;
 import at.fhtw.swen3.services.WarehouseService;
+import lombok.NoArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.context.request.NativeWebRequest;
@@ -15,17 +16,15 @@ import javax.annotation.Generated;
 @Controller
 public class WarehouseApiController implements WarehouseApi {
 
+    @Autowired
     private NativeWebRequest request;
 
+    @Autowired
     private WarehouseService warehouseService;
 
-
-    public WarehouseApiController(NativeWebRequest request) {
-        this.request = request;
-    }
-
     @Autowired
-    public WarehouseApiController(WarehouseService warehouseService) {
+    public WarehouseApiController(NativeWebRequest request, WarehouseService warehouseService) {
+        this.request = request;
         this.warehouseService = warehouseService;
     }
 
