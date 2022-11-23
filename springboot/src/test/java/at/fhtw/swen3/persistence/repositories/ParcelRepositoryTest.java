@@ -12,30 +12,35 @@ import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabas
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import java.time.OffsetDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
-@DataJpaTest
-@AutoConfigureTestDatabase(replace= AutoConfigureTestDatabase.Replace.NONE)
+
+@SpringBootTest
 public class ParcelRepositoryTest {
 
     @Autowired
     private ParcelRepository parcelRepository;
-    final static ParcelEntity parcel = new ParcelEntity();
-    final static RecipientEntity recipient = new RecipientEntity();
-    final static RecipientEntity sender = new RecipientEntity();
+    private static ParcelEntity parcelEntity = new ParcelEntity();
+    private static RecipientEntity recipient = new RecipientEntity();
+    private static RecipientEntity sender = new RecipientEntity();
+
+    private static HopArrivalEntity hopArrivalEntity = new HopArrivalEntity();
 
     @BeforeAll
     static void init(){
 
-        parcel.setWeight(20f);
+        parcelEntity.setWeight(20f);
 
 
         recipient.setCity("Vienna");
         recipient.setCountry("Austria");
         recipient.setStreet("Höchstädplatz");
         recipient.setPostalCode("1200");
+        recipient.setName("Noah");
 
 
         sender.setCity("Vienna");
@@ -43,26 +48,23 @@ public class ParcelRepositoryTest {
         sender.setStreet("Gerhardusgasse");
         sender.setPostalCode("1200");
 
-        parcel.setRecipient(recipient);
-        parcel.setSender(sender);
 
-        parcel.setTrackingId("QWERTZUIO");
+        parcelEntity.setRecipient(recipient);
+        parcelEntity.setSender(sender);
 
-        final List<HopArrivalEntity> visitedHops = new ArrayList<>();
-        visitedHops.add(new HopArrivalEntity());
-        visitedHops.add(new HopArrivalEntity());
-        visitedHops.add(new HopArrivalEntity());
-        final List<HopArrivalEntity> futureHops = new ArrayList<>();
-        futureHops.add(new HopArrivalEntity());
-        futureHops.add(new HopArrivalEntity());
+        parcelEntity.setTrackingId("QWERTZUIO");
 
-        parcel.setVisitedHops(visitedHops);
-        parcel.setFutureHops(futureHops);
+        hopArrivalEntity = new HopArrivalEntity();
+        hopArrivalEntity.setCode("A-1200");
+        hopArrivalEntity.setDescription("This is a description");
+        hopArrivalEntity.setDateTime(OffsetDateTime.now());
     }
 
     @Test
     void insertParcel(){
-        parcelRepository.save(parcel);
+        // Create sender and recipient before saving!
+        ParcelEntity parcel = parcelRepository.save(parcelEntity);
+        assertEquals(parcel.getWeight(), parcelEntity.getWeight());
     }
 
 }

@@ -46,7 +46,4 @@ public class ParcelApiController implements ParcelApi {
                 .map(value -> ResponseEntity.status(HttpStatus.CREATED).body(value))
                 .orElse(ResponseEntity.notFound().build());
     }
-
-
-
 }
