@@ -11,6 +11,6 @@ import javax.transaction.Transactional;
 public interface RecipientRepository extends JpaRepository<RecipientEntity, Long> {
 
     RecipientEntity findByName(String name);
-    @Transactional
+    //@Transactional
     void deleteByName(String name);
 }

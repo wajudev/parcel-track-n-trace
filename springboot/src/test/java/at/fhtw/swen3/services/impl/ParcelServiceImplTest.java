@@ -9,6 +9,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import java.time.OffsetDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -23,6 +24,8 @@ public class ParcelServiceImplTest {
     final static ParcelEntity parcel = new ParcelEntity();
     final static RecipientEntity recipient = new RecipientEntity();
     final static RecipientEntity sender = new RecipientEntity();
+
+    private static HopArrivalEntity hopArrivalEntity = new HopArrivalEntity();
 
     @BeforeAll
     static void init(){
@@ -47,16 +50,11 @@ public class ParcelServiceImplTest {
 
         parcel.setTrackingId("QWERTZUIO");
 
-        final List<HopArrivalEntity> visitedHops = new ArrayList<>();
-        visitedHops.add(new HopArrivalEntity());
-        visitedHops.add(new HopArrivalEntity());
-        visitedHops.add(new HopArrivalEntity());
-        final List<HopArrivalEntity> futureHops = new ArrayList<>();
-        futureHops.add(new HopArrivalEntity());
-        futureHops.add(new HopArrivalEntity());
+        hopArrivalEntity = new HopArrivalEntity();
+        hopArrivalEntity.setCode("A-1200");
+        hopArrivalEntity.setDescription("This is a description");
+        hopArrivalEntity.setDateTime(OffsetDateTime.now());
 
-        parcel.setVisitedHops(visitedHops);
-        parcel.setFutureHops(futureHops);
     }
 
 
