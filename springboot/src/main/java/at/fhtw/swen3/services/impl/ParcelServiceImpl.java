@@ -46,6 +46,7 @@ public class ParcelServiceImpl implements ParcelService {
         return dummyNewParcelInfo();
     }
 
+    @Override
     public TrackingInformation findParcel(String trackingId) {
         log.info("Searching for Parcel in DB");
         ParcelEntity entity = parcelRepository.findByTrackingId(trackingId);
