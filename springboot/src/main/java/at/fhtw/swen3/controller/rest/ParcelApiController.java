@@ -55,7 +55,7 @@ public class ParcelApiController implements ParcelApi {
     @Override
     public ResponseEntity<TrackingInformation> trackParcel(String trackingId) {
         System.out.println(trackingId);
-        parcelService.findParcel(trackingId);
+        parcelService.trackParcel(trackingId);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 

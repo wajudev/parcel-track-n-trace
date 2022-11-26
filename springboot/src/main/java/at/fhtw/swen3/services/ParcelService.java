@@ -28,7 +28,7 @@ public interface ParcelService {
 
     void deleteEntity(String name);
 
-    TrackingInformation findParcel(String trackingId);
+    TrackingInformation trackParcel(String trackingId);
 
     void reportParcelDelivery(String trackingId);
     void reportParcelHop(String trackingId, String code);

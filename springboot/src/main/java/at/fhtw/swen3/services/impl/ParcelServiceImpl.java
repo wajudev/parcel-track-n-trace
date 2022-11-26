@@ -63,8 +63,12 @@ public class ParcelServiceImpl implements ParcelService {
                 .trackingId(String.valueOf(uniqueKey));
     }
 
+
+
+
+
     @Override
-    public TrackingInformation findParcel(String trackingId) {
+    public TrackingInformation trackParcel(String trackingId) {
         log.info("Searching for Parcel in DB");
         ParcelEntity entity = parcelRepository.findByTrackingId(trackingId);
         if (entity != null) {
@@ -89,8 +93,11 @@ public class ParcelServiceImpl implements ParcelService {
     @Override
     public NewParcelInfo transitionParcel(ParcelEntity parcel) {
         validator.validate(parcel);
-        return new NewParcelInfo();
+
+        return new NewParcelInfo()
+                .trackingId(parcel.getTrackingId());
     }
+
 
     @Override
     public void saveHops(HopArrivalEntity hopArrivalEntity){
