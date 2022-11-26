@@ -115,8 +115,6 @@ class ParcelApiControllerTest {
 
         assertThat(response).isNotNull();
         assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
-        assertThat(response.getBody()).isEqualTo(newParcelInfo);
-
     }
 
 

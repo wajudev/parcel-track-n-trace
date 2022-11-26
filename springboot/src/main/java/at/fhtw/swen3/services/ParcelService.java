@@ -8,6 +8,8 @@ import at.fhtw.swen3.services.dto.NewParcelInfo;
 import at.fhtw.swen3.services.dto.TrackingInformation;
 
 import java.util.List;
+import java.util.Optional;
+
 public interface ParcelService {
 
     List<ParcelEntity> getAllParcel();
@@ -30,8 +32,8 @@ public interface ParcelService {
 
     TrackingInformation trackParcel(String trackingId);
 
-    void reportParcelDelivery(String trackingId);
-    void reportParcelHop(String trackingId, String code);
+    ParcelEntity reportParcelDelivery(String trackingId);
+    ParcelEntity reportParcelHop(String trackingId, String code);
 
 
 }

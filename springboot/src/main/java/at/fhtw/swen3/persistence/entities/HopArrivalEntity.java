@@ -1,6 +1,7 @@
 package at.fhtw.swen3.persistence.entities;
 
 
+import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -10,6 +11,7 @@ import javax.validation.constraints.Pattern;
 import java.time.OffsetDateTime;
 
 @Entity
+@Builder
 @Setter
 @Getter
 @Table(name = "hop_arrival")

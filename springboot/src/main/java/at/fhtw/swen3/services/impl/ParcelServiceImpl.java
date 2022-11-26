@@ -1,13 +1,7 @@
 package at.fhtw.swen3.services.impl;
 
-import at.fhtw.swen3.persistence.entities.HopArrivalEntity;
-import at.fhtw.swen3.persistence.entities.ParcelEntity;
-import at.fhtw.swen3.persistence.entities.RecipientEntity;
-import at.fhtw.swen3.persistence.entities.TrackingInformationEntity;
-import at.fhtw.swen3.persistence.repositories.HopArrivalRepository;
-import at.fhtw.swen3.persistence.repositories.ParcelRepository;
-import at.fhtw.swen3.persistence.repositories.RecipientRepository;
-import at.fhtw.swen3.persistence.repositories.TrackingInformationRepository;
+import at.fhtw.swen3.persistence.entities.*;
+import at.fhtw.swen3.persistence.repositories.*;
 import at.fhtw.swen3.services.ParcelService;
 import at.fhtw.swen3.services.dto.NewParcelInfo;
 import at.fhtw.swen3.services.dto.TrackingInformation;
@@ -17,7 +11,9 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.OffsetDateTime;
 import java.util.List;
+import java.util.Optional;
 import java.util.Random;
 
 
@@ -35,6 +31,9 @@ public class ParcelServiceImpl implements ParcelService {
 
     @Autowired
     private RecipientRepository recipientRepository;
+
+    @Autowired
+    private HopRepository hopRepository;
 
     @Autowired
     private HopArrivalRepository hopArrivalRepository;
@@ -57,6 +56,7 @@ public class ParcelServiceImpl implements ParcelService {
         createRecipient(newParcel.getRecipient());
         createRecipient(newParcel.getSender());
         newParcel.setTrackingId(String.valueOf(uniqueKey));
+        newParcel.setState(TrackingInformation.StateEnum.PICKUP);
 
         parcelRepository.save(newParcel);
         return new NewParcelInfo()
@@ -83,19 +83,43 @@ public class ParcelServiceImpl implements ParcelService {
 
 
     @Override
-    public void reportParcelDelivery(String trackingId) {
+    public ParcelEntity reportParcelDelivery(String trackingId) {
+        ParcelEntity parcelEntity = parcelRepository.findByTrackingId(trackingId);
+        if (parcelEntity != null){
+            changeTrackingStateToDelivered(parcelEntity);
+            return parcelEntity;
+        }
+        return null;
+    }
 
+    private void changeTrackingStateToDelivered(ParcelEntity parcelEntity){
+        parcelEntity.setState(TrackingInformation.StateEnum.DELIVERED);
+        parcelRepository.save(parcelEntity);
     }
 
     @Override
-    public void reportParcelHop(String trackingId, String code) {
+    public ParcelEntity reportParcelHop(String trackingId, String code) {
+        ParcelEntity parcelEntity = parcelRepository.findByTrackingId(trackingId);
 
+        HopEntity hopEntity = hopRepository.findByCode(code);
+
+        if (parcelEntity != null && hopEntity != null){
+            HopArrivalEntity hopArrivalEntity = HopArrivalEntity.builder()
+                    .dateTime(OffsetDateTime.now())
+                    .code(hopEntity.getCode())
+                    .description(hopEntity.getDescription())
+                    .build();
+            parcelEntity.getVisitedHops().add(hopArrivalEntity);
+            parcelRepository.save(parcelEntity);
+            return parcelEntity;
+        }
+        return null;
     }
 
     @Override
     public NewParcelInfo transitionParcel(ParcelEntity parcel) {
         validator.validate(parcel);
-
+        parcel.setState(TrackingInformation.StateEnum.TRANSFERRED);
         return new NewParcelInfo()
                 .trackingId(parcel.getTrackingId());
     }
