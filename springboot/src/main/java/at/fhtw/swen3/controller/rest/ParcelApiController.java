@@ -59,4 +59,24 @@ public class ParcelApiController implements ParcelApi {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
+    @Override
+    public ResponseEntity<NewParcelInfo> transitionParcel(String trackingId, Parcel parcel){
+        ParcelEntity parcelEntity = ParcelMapper.INSTANCE.map(trackingId, parcel);
+        NewParcelInfo newParcelInfo = parcelService.transitionParcel(parcelEntity);
+
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @Override
+    public ResponseEntity<Void> reportParcelHop(String trackingId, String code){
+        parcelService.reportParcelHop(trackingId, code);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @Override
+    public ResponseEntity<Void> reportParcelDelivery(String trackingId){
+        parcelService.reportParcelDelivery(trackingId);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
 }

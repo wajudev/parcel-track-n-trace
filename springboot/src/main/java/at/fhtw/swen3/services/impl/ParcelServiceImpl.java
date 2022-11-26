@@ -9,7 +9,6 @@ import at.fhtw.swen3.persistence.repositories.ParcelRepository;
 import at.fhtw.swen3.persistence.repositories.RecipientRepository;
 import at.fhtw.swen3.persistence.repositories.TrackingInformationRepository;
 import at.fhtw.swen3.services.ParcelService;
-import at.fhtw.swen3.services.dto.HopArrival;
 import at.fhtw.swen3.services.dto.NewParcelInfo;
 import at.fhtw.swen3.services.dto.TrackingInformation;
 import at.fhtw.swen3.services.validator.Validator;
@@ -18,7 +17,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.time.OffsetDateTime;
 import java.util.List;
 import java.util.Random;
 
@@ -90,7 +88,8 @@ public class ParcelServiceImpl implements ParcelService {
 
     @Override
     public NewParcelInfo transitionParcel(ParcelEntity parcel) {
-        return null;
+        validator.validate(parcel);
+        return new NewParcelInfo();
     }
 
     @Override

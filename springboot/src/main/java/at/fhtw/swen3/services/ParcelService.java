@@ -14,6 +14,8 @@ public interface ParcelService {
 
     NewParcelInfo submitParcel(ParcelEntity newParcel);
 
+    NewParcelInfo transitionParcel(ParcelEntity parcel);
+
     void saveHops(HopArrivalEntity hopArrivalEntity);
 
     void saveTrackingInformation(TrackingInformationEntity trackingInformationEntity);
@@ -31,6 +33,5 @@ public interface ParcelService {
     void reportParcelDelivery(String trackingId);
     void reportParcelHop(String trackingId, String code);
 
-    NewParcelInfo transitionParcel(ParcelEntity parcel);
 
 }

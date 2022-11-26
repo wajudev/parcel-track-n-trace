@@ -25,6 +25,8 @@ public interface ParcelMapper {
 
     ParcelEntity map(Parcel parcel);
 
+    ParcelEntity map(String trackingId, Parcel parcel);
+
     RecipientEntity map(Recipient recipient);
 
     HopArrivalEntity map(HopArrival hopArrival);
