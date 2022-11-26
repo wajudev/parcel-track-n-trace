@@ -74,8 +74,10 @@ public class ParcelServiceImpl implements ParcelService {
         if (entity != null) {
             TrackingInformation trackingInformation = new TrackingInformation();
             trackingInformation.setState(entity.getState());
+            log.info("Parcel with trackingId: "+trackingId+" found");
             return trackingInformation;
         }
+        log.warn("Parcel with trackingId: "+ trackingId+ " could not be found in DB");
         return null;
     }
 
