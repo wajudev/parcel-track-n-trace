@@ -63,7 +63,7 @@ public class ParcelServiceImplTest {
         parcelService.reportParcelDelivery(parcel.getTrackingId());
     }
     @Test
-    @Order(3)
+    @Order(4)
     void deleteParcel(){
         parcelService.deleteParcelEntity(parcel.getTrackingId());
     }
