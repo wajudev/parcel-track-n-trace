@@ -28,7 +28,7 @@ public class ParcelRepositoryTest {
     private static RecipientEntity recipient = new RecipientEntity();
     private static RecipientEntity sender = new RecipientEntity();
 
-    private static HopArrivalEntity hopArrivalEntity = new HopArrivalEntity();
+    //private static HopArrivalEntity hopArrivalEntity = new HopArrivalEntity();
 
     @BeforeAll
     static void init(){
@@ -38,15 +38,16 @@ public class ParcelRepositoryTest {
 
         recipient.setCity("Vienna");
         recipient.setCountry("Austria");
-        recipient.setStreet("Höchstädplatz");
-        recipient.setPostalCode("1200");
+        recipient.setStreet("Hoechstaedplatz");
+        recipient.setPostalCode("A-1200");
         recipient.setName("Noah");
 
 
         sender.setCity("Vienna");
         sender.setCountry("Austria");
-        sender.setStreet("Gerhardusgasse");
-        sender.setPostalCode("1200");
+        sender.setStreet("Gerhardusgasse 21");
+        sender.setPostalCode("A-1200");
+        sender.setName("Malte");
 
 
         parcelEntity.setRecipient(recipient);
@@ -54,15 +55,16 @@ public class ParcelRepositoryTest {
 
         parcelEntity.setTrackingId("QWERTZUIO");
 
-        hopArrivalEntity = new HopArrivalEntity();
+       /* hopArrivalEntity = new HopArrivalEntity();
         hopArrivalEntity.setCode("A-1200");
         hopArrivalEntity.setDescription("This is a description");
-        hopArrivalEntity.setDateTime(OffsetDateTime.now());
+        hopArrivalEntity.setDateTime(OffsetDateTime.now());*/
     }
 
-    @Test
+   // @Test
     void insertParcel(){
         // Create sender and recipient before saving!
+
         ParcelEntity parcel = parcelRepository.save(parcelEntity);
         assertEquals(parcel.getWeight(), parcelEntity.getWeight());
     }

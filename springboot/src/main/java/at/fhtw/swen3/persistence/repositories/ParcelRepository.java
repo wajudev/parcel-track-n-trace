@@ -16,5 +16,8 @@ public interface ParcelRepository extends JpaRepository<ParcelEntity, Long> {
    ParcelEntity findById(long id);
    ParcelEntity findByTrackingId(String id);
 
+   void deleteByTrackingId(String trackingId);
+
+
 
 }

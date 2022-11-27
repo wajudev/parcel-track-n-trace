@@ -1,22 +1,16 @@
 package at.fhtw.swen3.services.impl;
 
-import at.fhtw.swen3.persistence.entities.HopArrivalEntity;
 import at.fhtw.swen3.persistence.entities.ParcelEntity;
 import at.fhtw.swen3.persistence.entities.RecipientEntity;
-import at.fhtw.swen3.services.impl.ParcelServiceImpl;
-import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-
-import java.time.OffsetDateTime;
-import java.util.ArrayList;
-import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNull;
 
 @SpringBootTest
+@TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 public class ParcelServiceImplTest {
     @Autowired
     private ParcelServiceImpl parcelService;
@@ -41,6 +35,7 @@ public class ParcelServiceImplTest {
 
 
         sender.setCity("Vienna");
+        sender.setName("Klaus");
         sender.setCountry("Austria");
         sender.setStreet("Gerhardusgasse 21");
         sender.setPostalCode("A-1200");
@@ -48,7 +43,6 @@ public class ParcelServiceImplTest {
         parcel.setRecipient(recipient);
         parcel.setSender(sender);
 
-        parcel.setTrackingId("QWERTZUIO");
 
         /*hopArrivalEntity = new HopArrivalEntity();
         hopArrivalEntity.setCode("A-1200");
@@ -59,21 +53,43 @@ public class ParcelServiceImplTest {
 
 
     @Test
+    @Order(2)
     void insertParcel(){
-
-        //parcelService.createRecipient(recipient);
-        //parcelService.createRecipient(sender);
-
         parcelService.submitParcel(parcel);
     }
     @Test
-    void insertRecipient(){
+    @Order(3)
+    void deliverParcel(){
+        parcelService.reportParcelDelivery(parcel.getTrackingId());
+    }
+    @Test
+    @Order(3)
+    void deleteParcel(){
+        parcelService.deleteParcelEntity(parcel.getTrackingId());
+    }
+    @Test
+    @Order(5)
+    void deleteRecipients(){
+        parcelService.deleteRecipientEntity(parcel.getRecipient().getName());
+        parcelService.deleteRecipientEntity(parcel.getSender().getName());
+    }
+    @Test
+    @Order(1)
+    void insertRecipients(){
         parcelService.createRecipient(recipient);
+        parcelService.createRecipient(sender);
+    }
+
+   /* @Test
+    @Order(1)
+    void insertRecipients(){
+        parcelService.createRecipient(recipient);
+        parcelService.createRecipient(sender);
         RecipientEntity foundRecipient = parcelService.findRecipient(recipient.getName());
         assertEquals(recipient.getName(),foundRecipient.getName());
-        parcelService.deleteEntity(recipient.getName());
+        parcelService.deleteRecipientEntity(recipient.getName());
         assertNull(parcelService.findRecipient(recipient.getName()));
 
-    }
+    }*/
 
 }

@@ -8,7 +8,6 @@ import at.fhtw.swen3.services.dto.NewParcelInfo;
 import at.fhtw.swen3.services.dto.TrackingInformation;
 
 import java.util.List;
-import java.util.Optional;
 
 public interface ParcelService {
 
@@ -28,7 +27,9 @@ public interface ParcelService {
 
     ParcelEntity getTrackingInformation(String trackingId);
 
-    void deleteEntity(String name);
+    void deleteRecipientEntity(String name);
+
+    void deleteParcelEntity(String trackingId);
 
     TrackingInformation trackParcel(String trackingId);
 

@@ -11,6 +11,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.time.OffsetDateTime;
 import java.util.List;
 import java.util.Optional;
@@ -20,6 +21,7 @@ import java.util.Random;
 @Slf4j
 @NoArgsConstructor
 @Service
+@Transactional
 public class ParcelServiceImpl implements ParcelService {
 
 
@@ -51,21 +53,32 @@ public class ParcelServiceImpl implements ParcelService {
     public NewParcelInfo submitParcel(ParcelEntity newParcel) {
         log.info("Creating unique tracking ID");
         String uniqueKey = uniqueID();
-        log.info("Saving new Parcel in DB");
-        validator.validate(newParcel);
-        createRecipient(newParcel.getRecipient());
-        createRecipient(newParcel.getSender());
         newParcel.setTrackingId(String.valueOf(uniqueKey));
         newParcel.setState(TrackingInformation.StateEnum.PICKUP);
 
-        parcelRepository.save(newParcel);
-        return new NewParcelInfo()
-                .trackingId(String.valueOf(uniqueKey));
+        return saveParcel(newParcel);
     }
 
+    @Override
+    public NewParcelInfo transitionParcel(ParcelEntity parcel) {
+        log.info("Changing State to transfered");
+        parcel.setState(TrackingInformation.StateEnum.TRANSFERRED);
+        return saveParcel(parcel);
+    }
 
+    private NewParcelInfo saveParcel(ParcelEntity newParcel){
+        log.info("Validating parcel");
+        validator.validate(newParcel);
 
+        createRecipient(newParcel.getRecipient());
+        createRecipient(newParcel.getSender());
 
+        log.info("Saving new Parcel in DB");
+        parcelRepository.save(newParcel);
+
+        return new NewParcelInfo()
+                .trackingId(String.valueOf(newParcel.getTrackingId()));
+    }
 
     @Override
     public TrackingInformation trackParcel(String trackingId) {
@@ -86,15 +99,15 @@ public class ParcelServiceImpl implements ParcelService {
     public ParcelEntity reportParcelDelivery(String trackingId) {
         ParcelEntity parcelEntity = parcelRepository.findByTrackingId(trackingId);
         if (parcelEntity != null){
-            changeTrackingStateToDelivered(parcelEntity);
-            return parcelEntity;
+            return changeTrackingStateToDelivered(parcelEntity);
         }
         return null;
     }
 
-    private void changeTrackingStateToDelivered(ParcelEntity parcelEntity){
+    private ParcelEntity changeTrackingStateToDelivered(ParcelEntity parcelEntity){
         parcelEntity.setState(TrackingInformation.StateEnum.DELIVERED);
         parcelRepository.save(parcelEntity);
+        return parcelEntity;
     }
 
     @Override
@@ -116,13 +129,7 @@ public class ParcelServiceImpl implements ParcelService {
         return null;
     }
 
-    @Override
-    public NewParcelInfo transitionParcel(ParcelEntity parcel) {
-        validator.validate(parcel);
-        parcel.setState(TrackingInformation.StateEnum.TRANSFERRED);
-        return new NewParcelInfo()
-                .trackingId(parcel.getTrackingId());
-    }
+
 
 
     @Override
@@ -156,8 +163,13 @@ public class ParcelServiceImpl implements ParcelService {
     }
 
     @Override
-    public void deleteEntity(String name) {
+    public void deleteRecipientEntity(String name) {
         recipientRepository.deleteByName(name);
+    }
+
+    @Override
+    public void deleteParcelEntity(String trackingId) {
+        parcelRepository.deleteByTrackingId(trackingId);
     }
 
     public String uniqueID() {
