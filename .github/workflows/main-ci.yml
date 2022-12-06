@@ -26,6 +26,8 @@ jobs:
         
     - name: Step 2.5 - List the current directory
       run: cd ./springboot  
+    - name: Step 2.5 - List the current directory
+      run: ls -a
 
     - name: Step 3 - Let Github build with Maven project
       env:
