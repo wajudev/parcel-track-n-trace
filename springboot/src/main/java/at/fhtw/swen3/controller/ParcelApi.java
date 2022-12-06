@@ -134,7 +134,7 @@ public interface ParcelApi {
         value = "/parcel",
         produces = { "application/json" },
         consumes = { "application/json" }
-    )*/
+    )
     default ResponseEntity<NewParcelInfo> submitParcel(
         @Parameter(name = "Parcel", description = "", required = true)  @RequestBody Parcel parcel
     ) {

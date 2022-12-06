@@ -16,6 +16,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.context.request.NativeWebRequest;
@@ -44,14 +45,16 @@ public class ParcelApiController implements ParcelApi {
         return Optional.ofNullable(request);
     }
 
-    @Override
+   // @Override
     @RequestMapping(
             method = RequestMethod.POST,
             value = "/parcel",
             produces = { "application/json" },
             consumes = { "application/json" }
     )
-    public ResponseEntity<NewParcelInfo> submitParcel(Parcel parcel){
+    public ResponseEntity<NewParcelInfo> submitParcel(
+            @Parameter(name = "Parcel", description = "", required = true)  @RequestBody Parcel parcel
+    ){
         ParcelEntity parcelEntity = ParcelMapper.INSTANCE.map(parcel);
 
         NewParcelInfo newParcelInfo = parcelService.submitParcel(parcelEntity);
