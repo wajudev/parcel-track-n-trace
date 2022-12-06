@@ -38,7 +38,7 @@ jobs:
 
     - name: Step 5 - Target folder
       run: |
-        cd target
+        cd ./springboot/target
         ls -a
     
     - name: Step 7 - Upload JAR
@@ -48,7 +48,7 @@ jobs:
         #Set artifact name
         name: artifact
         #From this path
-        path: target/openapi-spring-1.22.1.jar
+        path: ./springboot/target/openapi-spring-1.22.1.jar
         
   deploy:
     #Depends on build's job
