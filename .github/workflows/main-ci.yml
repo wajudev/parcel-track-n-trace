@@ -45,7 +45,7 @@ jobs:
         #Set artifact name
         name: artifact
         #From this path
-        path: target/parcel-track-n-trace-1.0-SNAPSHOT.jar
+        path: target/openapi-spring-1.22.1.jar
         
   deploy:
     #Depends on build's job
@@ -71,4 +71,4 @@ jobs:
           environment_name: Bestesswenteam-env	
           version_label: ${{github.run_id}}
           region: us-east-1
-          deployment_package: parcel-track-n-trace-1.0-SNAPSHOT.jar
+          deployment_package: openapi-spring-1.22.1.jar
