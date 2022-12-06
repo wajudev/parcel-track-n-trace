@@ -113,7 +113,7 @@ public interface ParcelApi {
      *         or The operation failed due to an error. (status code 400)
      *         or The address of sender or receiver was not found. (status code 404)
      */
-   /* @Operation(
+    @Operation(
         operationId = "submitParcel",
         summary = "Submit a new parcel to the logistics service. ",
         tags = { "sender" },
