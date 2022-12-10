@@ -1,16 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="DataSourceManagerImpl" format="xml" multifile-model="true">
-    <data-source source="LOCAL" name="packettrackntracedb@localhost" uuid="3d3d563d-9d2b-4fe7-b36b-bed2a733b6f2">
-      <driver-ref>postgresql</driver-ref>
-      <synchronize>true</synchronize>
-      <jdbc-driver>org.postgresql.Driver</jdbc-driver>
-      <jdbc-url>jdbc:postgresql://localhost:5432/postgres</jdbc-url>
-      <working-dir>$ProjectFileDir$</working-dir>
-    </data-source>
     <data-source source="LOCAL" name="postgres@parcel-track-n-trace.cdqmrbhrvyrg.us-east-1.rds.amazonaws.com" uuid="9941244b-1377-4023-a872-e756ea4bd7a9">
       <driver-ref>postgresql</driver-ref>
       <synchronize>true</synchronize>
+      <jdbc-driver>org.postgresql.Driver</jdbc-driver>
+      <jdbc-url>jdbc:postgresql://parcel-track-n-trace.cdqmrbhrvyrg.us-east-1.rds.amazonaws.com:5432/postgres</jdbc-url>
+      <working-dir>$ProjectFileDir$</working-dir>
+    </data-source>
+    <data-source source="LOCAL" name="openapi-spring/Hibernate" uuid="204fcea1-327b-4481-a125-a15c69a12e65">
+      <driver-ref>postgresql</driver-ref>
+      <synchronize>true</synchronize>
+      <imported>true</imported>
+      <remarks>Hibernate</remarks>
       <jdbc-driver>org.postgresql.Driver</jdbc-driver>
       <jdbc-url>jdbc:postgresql://parcel-track-n-trace.cdqmrbhrvyrg.us-east-1.rds.amazonaws.com:5432/postgres</jdbc-url>
       <working-dir>$ProjectFileDir$</working-dir>
