@@ -10,6 +10,7 @@ import at.fhtw.swen3.services.dto.Parcel;
 import at.fhtw.swen3.services.dto.TrackingInformation;
 import at.fhtw.swen3.services.mapper.ParcelMapper;
 import io.swagger.v3.oas.annotations.Parameter;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -27,6 +28,7 @@ import javax.validation.constraints.Pattern;
 
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2022-09-22T22:59:08.396768Z[Etc/UTC]")
 @Controller
+@Slf4j
 public class ParcelApiController implements ParcelApi {
     @Autowired
     private NativeWebRequest request;

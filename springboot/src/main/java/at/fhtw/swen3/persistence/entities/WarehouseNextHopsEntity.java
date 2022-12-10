@@ -4,6 +4,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 
 @Entity
 @Setter
@@ -19,5 +20,6 @@ public class WarehouseNextHopsEntity {
     private Integer traveltimeMins;
 
     @OneToOne
+    @NotNull
     private HopEntity hop;
 }

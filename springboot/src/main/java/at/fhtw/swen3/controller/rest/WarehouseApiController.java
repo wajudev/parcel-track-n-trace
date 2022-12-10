@@ -10,6 +10,7 @@ import at.fhtw.swen3.services.dto.Warehouse;
 import at.fhtw.swen3.services.mapper.HopMapper;
 import at.fhtw.swen3.services.mapper.WarehouseMapper;
 import lombok.NoArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -21,6 +22,7 @@ import javax.annotation.Generated;
 
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2022-09-22T22:59:08.396768Z[Etc/UTC]")
 @Controller
+@Slf4j
 public class WarehouseApiController implements WarehouseApi {
 
     @Autowired

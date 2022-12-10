@@ -41,16 +41,19 @@ public class ParcelEntity {
     private RecipientEntity sender;
 
     @Column
+    @NotNull
     private TrackingInformation.StateEnum state;
 
    // @NotNull
     @JoinColumn(name = "hop_arrival_id")
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+    @NotNull
     private List<HopArrivalEntity> futureHops;
 
    // @NotNull
     @JoinColumn(name = "hop_arrival_id")
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+    @NotNull
     private List<HopArrivalEntity> visitedHops;
 
 }
