@@ -72,6 +72,6 @@ jobs:
           use_existing_version_if_available: false
           application_name: bestesSWENTeam	
           environment_name: Bestesswenteam-env	
-          version_label: ${{github.run_id}}
+          version_label: ${{github.SHA}}
           region: us-east-1
           deployment_package: openapi-spring-1.22.1.jar
