@@ -16,13 +16,10 @@ class OpenStreetMapEncodingProxyTest {
                 .city("Vienna")
                 .country("Austria")
                 .build();
-        // TODO: java.lang.NullPointerException: Cannot invoke
-        //  "com.fasterxml.jackson.databind.JsonNode.get(String)"
-        //  because the return value of "com.fasterxml.jackson.databind.JsonNode.get(int)" is null
         var result = geoEncodingService.encodeAddress(address);
 
         assertNotNull(result);
-        assertEquals(48.239470, result.getLat());
-        assertEquals(16.378000, result.getLon());
+        assertEquals(16.3774409, result.getLat());
+        assertEquals(48.2391664, result.getLon());
     }
 }

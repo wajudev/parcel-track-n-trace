@@ -37,4 +37,5 @@ public interface ParcelService {
     ParcelEntity reportParcelHop(String trackingId, String code);
 
 
+    void deleteHopArrivialEntity(List<HopArrivalEntity> futureHops);
 }

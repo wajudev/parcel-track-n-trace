@@ -130,7 +130,11 @@ public class ParcelServiceImpl implements ParcelService {
         return null;
     }
 
-
+   @Override
+    public void deleteHopArrivialEntity(List<HopArrivalEntity> hops) {
+        // TODO: Mach es genauer @Tom ;)
+        hopArrivalRepository.deleteAllInBatch(hops);
+    }
 
 
     @Override

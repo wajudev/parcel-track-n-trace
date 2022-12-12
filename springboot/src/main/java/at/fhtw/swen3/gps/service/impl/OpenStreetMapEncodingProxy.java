@@ -27,7 +27,7 @@ public class OpenStreetMapEncodingProxy implements GeoEncodingService {
                     .queryParam("street", address.getStreet())
                     .queryParam("city", address.getCity())
                     .queryParam("postalcode", address.getPostalcode())
-                    .queryParam("county", address.getCountry())
+                    .queryParam("country", address.getCountry())
                     .queryParam("format", "geojson")
                     .build()
                     .encode()
@@ -55,6 +55,7 @@ public class OpenStreetMapEncodingProxy implements GeoEncodingService {
 
         try {
             var root = new ObjectMapper().readTree(response.body());
+            System.out.println(root.get("features"));
             var coordinates = root.get("features").get(0).get("geometry").get("coordinates");
             GeoCoordinateEntity result = GeoCoordinateEntity.builder()
                     .lat(coordinates.get(0).asDouble())

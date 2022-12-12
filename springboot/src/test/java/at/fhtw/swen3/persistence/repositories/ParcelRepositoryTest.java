@@ -24,7 +24,7 @@ public class ParcelRepositoryTest {
 
     @Autowired
     private ParcelRepository parcelRepository;
-    private static ParcelEntity parcelEntity = new ParcelEntity();
+    private static ParcelEntity parcelEntity;
     private static RecipientEntity recipient = new RecipientEntity();
     private static RecipientEntity sender = new RecipientEntity();
 
@@ -33,7 +33,7 @@ public class ParcelRepositoryTest {
     @BeforeAll
     static void init(){
 
-        parcelEntity.setWeight(20f);
+//        parcelEntity.setWeight(20f);
 
 
         recipient.setCity("Vienna");
@@ -49,16 +49,28 @@ public class ParcelRepositoryTest {
         sender.setPostalCode("A-1200");
         sender.setName("Malte");
 
+//
+//        parcelEntity.setRecipient(recipient);
+//        parcelEntity.setSender(sender);
+//
+//        parcelEntity.setTrackingId("QWERTZUIO");
 
-        parcelEntity.setRecipient(recipient);
-        parcelEntity.setSender(sender);
+        HopArrivalEntity hopArrivalEntity = HopArrivalEntity.builder()
+                .dateTime(OffsetDateTime.now())
+                .code("ABCD12")
+                .description("This is a description")
+                .build();
 
-        parcelEntity.setTrackingId("QWERTZUIO");
+        parcelEntity = ParcelEntity.builder()
+                .weight(20f)
+                .trackingId("PYJRB4HZ6")
+                .recipient(recipient)
+                .sender(sender)
+                .state(TrackingInformation.StateEnum.PICKUP)
+                .visitedHop(hopArrivalEntity)
+                .futureHop(hopArrivalEntity)
+                .build();
 
-       /* hopArrivalEntity = new HopArrivalEntity();
-        hopArrivalEntity.setCode("A-1200");
-        hopArrivalEntity.setDescription("This is a description");
-        hopArrivalEntity.setDateTime(OffsetDateTime.now());*/
     }
 
    // @Test

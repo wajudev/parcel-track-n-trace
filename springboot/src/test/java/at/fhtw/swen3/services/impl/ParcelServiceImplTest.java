@@ -1,10 +1,15 @@
 package at.fhtw.swen3.services.impl;
 
+import at.fhtw.swen3.persistence.entities.HopArrivalEntity;
 import at.fhtw.swen3.persistence.entities.ParcelEntity;
 import at.fhtw.swen3.persistence.entities.RecipientEntity;
+import at.fhtw.swen3.services.dto.TrackingInformation;
 import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+
+import java.time.OffsetDateTime;
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNull;
@@ -15,17 +20,14 @@ public class ParcelServiceImplTest {
     @Autowired
     private ParcelServiceImpl parcelService;
 
-    final static ParcelEntity parcel = new ParcelEntity();
+    static ParcelEntity parcel;
     final static RecipientEntity recipient = new RecipientEntity();
     final static RecipientEntity sender = new RecipientEntity();
 
-    //private static HopArrivalEntity hopArrivalEntity = new HopArrivalEntity();
+
 
     @BeforeAll
     static void init(){
-
-        parcel.setWeight(20f);
-
 
         recipient.setCity("Vienna");
         recipient.setCountry("Austria");
@@ -40,15 +42,27 @@ public class ParcelServiceImplTest {
         sender.setStreet("Gerhardusgasse 21");
         sender.setPostalCode("A-1200");
 
-        parcel.setRecipient(recipient);
-        parcel.setSender(sender);
+        HopArrivalEntity hopArrivalEntity = HopArrivalEntity.builder()
+                .dateTime(OffsetDateTime.now())
+                .code("ABCD12")
+                .description("This is a description")
+                .build();
 
+        HopArrivalEntity hopArrivalEntity2 = HopArrivalEntity.builder()
+                .dateTime(OffsetDateTime.now())
+                .code("ABCD35")
+                .description("This is a description 2")
+                .build();
 
-        /*hopArrivalEntity = new HopArrivalEntity();
-        hopArrivalEntity.setCode("A-1200");
-        hopArrivalEntity.setDescription("This is a description");
-        hopArrivalEntity.setDateTime(OffsetDateTime.now());*/
-
+        parcel = ParcelEntity.builder()
+                .weight(20f)
+                .trackingId("PYJRB4HZ6")
+                .recipient(recipient)
+                .sender(sender)
+                .state(TrackingInformation.StateEnum.PICKUP)
+                .visitedHop(hopArrivalEntity)
+                .futureHop(hopArrivalEntity2)
+                .build();
     }
 
 
@@ -62,17 +76,19 @@ public class ParcelServiceImplTest {
     void deliverParcel(){
         parcelService.reportParcelDelivery(parcel.getTrackingId());
     }
-    @Test
+/*    @Test
     @Order(4)
     void deleteParcel(){
         parcelService.deleteParcelEntity(parcel.getTrackingId());
-    }
-    @Test
+    }*/
+/*    @Test
     @Order(5)
     void deleteRecipients(){
+        parcelService.deleteHopArrivialEntity(parcel.getVisitedHops());
+        parcelService.deleteHopArrivialEntity(parcel.getFutureHops());
         parcelService.deleteRecipientEntity(parcel.getRecipient().getName());
         parcelService.deleteRecipientEntity(parcel.getSender().getName());
-    }
+    }*/
     @Test
     @Order(1)
     void insertRecipients(){

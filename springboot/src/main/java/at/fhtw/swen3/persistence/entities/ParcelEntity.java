@@ -2,8 +2,7 @@ package at.fhtw.swen3.persistence.entities;
 
 
 import at.fhtw.swen3.services.dto.TrackingInformation;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 import javax.persistence.*;
 import javax.validation.constraints.DecimalMin;
@@ -15,6 +14,9 @@ import java.util.List;
 @Getter
 @Setter
 @Entity
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
 @Table(name = "parcel")
 public class ParcelEntity {
     @Id
@@ -44,16 +46,16 @@ public class ParcelEntity {
     @NotNull
     private TrackingInformation.StateEnum state;
 
-   // @NotNull
+    @Singular
     @JoinColumn(name = "hop_arrival_id")
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     @NotNull
-    private List<HopArrivalEntity> futureHops;
+    private List<HopArrivalEntity> futureHops = new ArrayList<>();
 
-   // @NotNull
+    @Singular
     @JoinColumn(name = "hop_arrival_id")
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     @NotNull
-    private List<HopArrivalEntity> visitedHops;
+    private List<HopArrivalEntity> visitedHops = new ArrayList<>();
 
 }
