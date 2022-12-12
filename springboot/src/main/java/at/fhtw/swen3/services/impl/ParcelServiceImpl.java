@@ -70,6 +70,7 @@ public class ParcelServiceImpl implements ParcelService {
         log.info("Validating parcel");
         validator.validate(newParcel);
 
+
         createRecipient(newParcel.getRecipient());
         createRecipient(newParcel.getSender());
 
