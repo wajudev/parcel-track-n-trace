@@ -25,7 +25,7 @@ public class HopEntity {
     private String code;
 
     @Column
-    @Pattern(regexp = "\\w+")
+    //@Pattern(regexp = "\\w+")
     private String description;
 
     @Column

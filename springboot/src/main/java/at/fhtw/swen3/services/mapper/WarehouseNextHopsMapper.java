@@ -1,7 +1,10 @@
 package at.fhtw.swen3.services.mapper;
 
 import at.fhtw.swen3.persistence.entities.GeoCoordinateEntity;
+import at.fhtw.swen3.persistence.entities.WarehouseEntity;
+import at.fhtw.swen3.persistence.entities.WarehouseNextHopsEntity;
 import at.fhtw.swen3.services.dto.GeoCoordinate;
+import at.fhtw.swen3.services.dto.WarehouseNextHops;
 import org.mapstruct.Mapper;
 import org.mapstruct.factory.Mappers;
 
@@ -9,7 +12,7 @@ import org.mapstruct.factory.Mappers;
 public interface WarehouseNextHopsMapper {
     WarehouseNextHopsMapper INSTANCE = Mappers.getMapper(WarehouseNextHopsMapper.class);
 
-    GeoCoordinateEntity dtoToEntity(GeoCoordinate geoCoordinate);
+    WarehouseNextHopsEntity dtoToEntity(WarehouseNextHops geoCoordinate);
 
-    GeoCoordinate entityToDto(GeoCoordinateEntity geoCoordinate);
+    WarehouseNextHops entityToDto(WarehouseNextHopsEntity geoCoordinate);
 }

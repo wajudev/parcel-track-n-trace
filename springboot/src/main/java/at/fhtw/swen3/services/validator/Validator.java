@@ -17,6 +17,9 @@ public class Validator {
         violations.forEach(v -> log.error(v.toString()));
         if (!violations.isEmpty()) {
             log.error("Failed to validate "+o.getClass());
+            for (ConstraintViolation<T> violation: violations) {
+                log.error("Failed to validate field "+violation.getMessage());
+            }
             return false;
             //throw new ConstraintViolationException(violations);
         }else {
