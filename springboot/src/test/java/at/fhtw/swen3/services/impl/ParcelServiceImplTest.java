@@ -76,19 +76,19 @@ public class ParcelServiceImplTest {
     void deliverParcel(){
         parcelService.reportParcelDelivery(parcel.getTrackingId());
     }
-/*    @Test
+    @Test
     @Order(4)
     void deleteParcel(){
         parcelService.deleteParcelEntity(parcel.getTrackingId());
-    }*/
-/*    @Test
+    }
+    @Test
     @Order(5)
     void deleteRecipients(){
-        parcelService.deleteHopArrivialEntity(parcel.getVisitedHops());
-        parcelService.deleteHopArrivialEntity(parcel.getFutureHops());
+        parcelService.deleteHopArrivalEntity(parcel.getVisitedHops());
+        parcelService.deleteHopArrivalEntity(parcel.getFutureHops());
         parcelService.deleteRecipientEntity(parcel.getRecipient().getName());
         parcelService.deleteRecipientEntity(parcel.getSender().getName());
-    }*/
+    }
     @Test
     @Order(1)
     void insertRecipients(){

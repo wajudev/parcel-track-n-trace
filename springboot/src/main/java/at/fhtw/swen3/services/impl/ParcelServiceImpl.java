@@ -70,7 +70,6 @@ public class ParcelServiceImpl implements ParcelService {
         log.info("Validating parcel");
         validator.validate(newParcel);
 
-
         createRecipient(newParcel.getRecipient());
         createRecipient(newParcel.getSender());
 
@@ -131,7 +130,7 @@ public class ParcelServiceImpl implements ParcelService {
     }
 
    @Override
-    public void deleteHopArrivialEntity(List<HopArrivalEntity> hops) {
+    public void deleteHopArrivalEntity(List<HopArrivalEntity> hops) {
         // TODO: Mach es genauer @Tom ;)
         hopArrivalRepository.deleteAllInBatch(hops);
     }
