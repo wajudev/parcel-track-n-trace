@@ -1,8 +1,6 @@
 package at.fhtw.swen3.services.impl;
 
-import at.fhtw.swen3.persistence.entities.HopEntity;
-import at.fhtw.swen3.persistence.entities.WarehouseEntity;
-import at.fhtw.swen3.persistence.entities.WarehouseNextHopsEntity;
+import at.fhtw.swen3.persistence.entities.*;
 import at.fhtw.swen3.persistence.repositories.*;
 import at.fhtw.swen3.services.WarehouseService;
 import at.fhtw.swen3.services.validator.Validator;
@@ -21,6 +19,12 @@ public class WarehouseServiceImpl implements WarehouseService {
     private GeoCoordinateRepository geoCoordinateRepository;
     @Autowired
     private WarehouseNextHopsRepository warehouseNextHopsRepository;
+
+    @Autowired
+    private TransferwarehouseRepository transferwarehouseRepository;
+
+    @Autowired
+    private TruckRepository truckRepository;
 
     @Autowired
     private HopRepository hopRepository;
@@ -50,6 +54,16 @@ public class WarehouseServiceImpl implements WarehouseService {
                     log.warn("OKAYYYYYYY");
                     log.warn(warehouseNextHop.getHop().getHopType());
                     recursiveImport((WarehouseEntity) warehouseNextHop.getHop());
+               }
+               if(warehouseNextHop.getHop() instanceof TruckEntity){
+                   log.warn("CRAZY");
+                   geoCoordinateRepository.save(warehouseNextHop.getHop().getLocationCoordinates());
+                   truckRepository.save((TruckEntity)warehouseNextHop.getHop());
+               }
+               if(warehouseNextHop.getHop() instanceof TransferwarehouseEntity){
+                   log.warn("HEAVY");
+                   geoCoordinateRepository.save(warehouseNextHop.getHop().getLocationCoordinates());
+                   transferwarehouseRepository.save((TransferwarehouseEntity) warehouseNextHop.getHop());
                }
             }
             log.info("Validating warehouse with code " + warehouseEntity.getCode());

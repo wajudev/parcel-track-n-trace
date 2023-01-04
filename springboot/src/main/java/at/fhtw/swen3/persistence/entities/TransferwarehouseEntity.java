@@ -18,6 +18,7 @@ public class TransferwarehouseEntity extends HopEntity{
     private Long id;
 
     @Column
+    @Lob
     private String regionGeoJson;
 
     @Column
