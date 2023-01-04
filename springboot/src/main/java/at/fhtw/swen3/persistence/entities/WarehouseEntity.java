@@ -21,6 +21,7 @@ public class WarehouseEntity extends HopEntity{
 
     @Column
     private Integer level;
+
     @OneToMany
     @NotNull
     private List<WarehouseNextHopsEntity> nextHops = new ArrayList<>();
