@@ -8,10 +8,12 @@ import lombok.NoArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Slf4j
 @Service
 @NoArgsConstructor
+@Transactional
 public class WarehouseServiceImpl implements WarehouseService {
     @Autowired
     private WarehouseRepository warehouseRepository;
@@ -39,6 +41,8 @@ public class WarehouseServiceImpl implements WarehouseService {
 
     @Override
     public void importWarehouses(WarehouseEntity warehouseEntity) {
+        log.info("Deleting old entries");
+        deleteAllWarehouses();
         log.info("Importing data");
         recursiveImport(warehouseEntity);
 
@@ -49,19 +53,15 @@ public class WarehouseServiceImpl implements WarehouseService {
             log.info("WareHouse is null");
         } else {
             for (WarehouseNextHopsEntity warehouseNextHop : warehouseEntity.getNextHops()) {
-                log.warn("HEYYYYYY");
                if(warehouseNextHop.getHop() instanceof WarehouseEntity){
-                    log.warn("OKAYYYYYYY");
                     log.warn(warehouseNextHop.getHop().getHopType());
                     recursiveImport((WarehouseEntity) warehouseNextHop.getHop());
                }
                if(warehouseNextHop.getHop() instanceof TruckEntity){
-                   log.warn("CRAZY");
                    geoCoordinateRepository.save(warehouseNextHop.getHop().getLocationCoordinates());
                    truckRepository.save((TruckEntity)warehouseNextHop.getHop());
                }
                if(warehouseNextHop.getHop() instanceof TransferwarehouseEntity){
-                   log.warn("HEAVY");
                    geoCoordinateRepository.save(warehouseNextHop.getHop().getLocationCoordinates());
                    transferwarehouseRepository.save((TransferwarehouseEntity) warehouseNextHop.getHop());
                }
@@ -78,5 +78,11 @@ public class WarehouseServiceImpl implements WarehouseService {
     @Override
     public HopEntity getWarehouse(String code) {
         return hopRepository.findByCode(code);
+    }
+
+    @Override
+    public void deleteAllWarehouses() {
+        warehouseNextHopsRepository.deleteAllInBatch();
+        hopRepository.deleteAllInBatch();
     }
 }

@@ -1,0 +1,29 @@
+{
+  "level": 0,
+  "nextHops": [
+    {
+      "traveltimeMins": 120,
+      "hop": {
+        "level": 1,
+        "code": "TEST01",
+        "description": "Test Warehouse 2 - Wien",
+        "processingDelayMins": 50,
+        "locationName": "Vienna",
+        "locationCoordinates": {
+          "lat": 48.2083537,
+          "lon": 16.3725042
+        },
+        "hopType": "warehouse"
+      }
+    }
+  ],
+  "hopType": "warehouse",
+  "code": "AUTA00",
+  "description": "Test Warehouse - Österreich",
+  "processingDelayMins": 186,
+  "locationName": "Root",
+  "locationCoordinates": {
+    "lat": 47.247829,
+    "lon": 	13.884382
+  }
+}

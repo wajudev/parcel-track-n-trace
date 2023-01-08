@@ -9,4 +9,6 @@ public interface WarehouseService {
     void importWarehouses(WarehouseEntity warehouseEntity);
 
     HopEntity getWarehouse(String code);
+
+    void deleteAllWarehouses();
 }

@@ -68,11 +68,11 @@ public class ParcelApiController implements ParcelApi {
     @Override
     public ResponseEntity<TrackingInformation> trackParcel(String trackingId) {
         System.out.println(trackingId);
-        TrackingInformation trackingInformation =parcelService.trackParcel(trackingId);
+        TrackingInformation trackingInformation = parcelService.trackParcel(trackingId);
         if(trackingInformation == null){
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
-        return new ResponseEntity<TrackingInformation>(trackingInformation,HttpStatus.OK);
+        return new ResponseEntity<TrackingInformation>(trackingInformation, HttpStatus.OK);
     }
 
     @Override
@@ -80,7 +80,7 @@ public class ParcelApiController implements ParcelApi {
         ParcelEntity parcelEntity = ParcelMapper.INSTANCE.map(trackingId, parcel);
         NewParcelInfo newParcelInfo = parcelService.transitionParcel(parcelEntity);
 
-        return new ResponseEntity<NewParcelInfo>(newParcelInfo,HttpStatus.OK);
+        return new ResponseEntity<NewParcelInfo>(newParcelInfo, HttpStatus.OK);
     }
 
     @Override
