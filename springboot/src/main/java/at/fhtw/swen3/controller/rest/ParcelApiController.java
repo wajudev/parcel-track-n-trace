@@ -77,7 +77,7 @@ public class ParcelApiController implements ParcelApi {
         ParcelEntity parcelEntity = ParcelMapper.INSTANCE.map(trackingId, parcel);
         NewParcelInfo newParcelInfo = parcelService.transitionParcel(parcelEntity);
 
-        return new ResponseEntity<>(HttpStatus.OK);
+        return new ResponseEntity<NewParcelInfo>(newParcelInfo,HttpStatus.OK);
     }
 
     @Override
