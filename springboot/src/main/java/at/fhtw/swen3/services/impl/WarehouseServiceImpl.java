@@ -3,12 +3,15 @@ package at.fhtw.swen3.services.impl;
 import at.fhtw.swen3.persistence.entities.*;
 import at.fhtw.swen3.persistence.repositories.*;
 import at.fhtw.swen3.services.WarehouseService;
+import at.fhtw.swen3.services.dto.Warehouse;
 import at.fhtw.swen3.services.validator.Validator;
 import lombok.NoArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
 
 @Slf4j
 @Service
@@ -82,7 +85,17 @@ public class WarehouseServiceImpl implements WarehouseService {
 
     @Override
     public void deleteAllWarehouses() {
-        warehouseNextHopsRepository.deleteAllInBatch();
-        hopRepository.deleteAllInBatch();
+        hopRepository.deleteAll();
+        warehouseNextHopsRepository.deleteAll();
+        /*List<WarehouseNextHopsEntity> warehouseNextHopsEntities = warehouseNextHopsRepository.findAll();
+        for (WarehouseNextHopsEntity warehouseNextHopEntity: warehouseNextHopsEntities) {
+            hopRepository.delete(warehouseNextHopEntity.getHop());
+            warehouseNextHopsRepository.delete(warehouseNextHopEntity);
+            hopRepository.delete(warehouseNextHopEntity.getHop());
+            /*log.info("HIHI");
+            log.info(warehouseNextHopEntity.getId() +"");
+            log.info("HUHU");
+            warehouseNextHopsRepository.delete(warehouseNextHopEntity);
+        }*/
     }
 }

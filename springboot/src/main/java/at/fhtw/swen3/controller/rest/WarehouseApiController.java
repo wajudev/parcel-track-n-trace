@@ -7,6 +7,7 @@ import at.fhtw.swen3.persistence.entities.TruckEntity;
 import at.fhtw.swen3.persistence.entities.WarehouseEntity;
 import at.fhtw.swen3.services.ParcelService;
 import at.fhtw.swen3.services.WarehouseService;
+import at.fhtw.swen3.services.decorator.HopMapperDecorator;
 import at.fhtw.swen3.services.dto.Hop;
 import at.fhtw.swen3.services.dto.Transferwarehouse;
 import at.fhtw.swen3.services.dto.Truck;
@@ -57,7 +58,8 @@ public class WarehouseApiController implements WarehouseApi {
     @Override
     public ResponseEntity<Hop> getWarehouse(String code){
         Object hop = warehouseService.getWarehouse(code);
-        if (hop.getClass() == WarehouseEntity.class) {
+        Hop hops = HopMapperDecorator.INSTANCE.entityToDto(warehouseService.getWarehouse(code));
+        if (hop instanceof WarehouseEntity) {
             Warehouse warehouse = WarehouseMapper.INSTANCE.entityToDto((WarehouseEntity) hop);
             return new ResponseEntity<>(warehouse,HttpStatus.CREATED);
         } else if (hop.getClass() == TruckEntity.class) {
