@@ -38,6 +38,7 @@ public class WarehouseApiController implements WarehouseApi {
     @Autowired
     private WarehouseService warehouseService;
 
+
     @Autowired
     public WarehouseApiController(NativeWebRequest request, WarehouseService warehouseService) {
         this.request = request;
@@ -57,20 +58,11 @@ public class WarehouseApiController implements WarehouseApi {
 
     @Override
     public ResponseEntity<Hop> getWarehouse(String code){
-        Object hop = warehouseService.getWarehouse(code);
-        Hop hops = HopMapperDecorator.INSTANCE.entityToDto(warehouseService.getWarehouse(code));
-        if (hop instanceof WarehouseEntity) {
-            Warehouse warehouse = WarehouseMapper.INSTANCE.entityToDto((WarehouseEntity) hop);
-            return new ResponseEntity<>(warehouse,HttpStatus.CREATED);
-        } else if (hop.getClass() == TruckEntity.class) {
-            Truck truck = TruckMapper.INSTANCE.entityToDto((TruckEntity) hop);
-            return new ResponseEntity<>(truck,HttpStatus.CREATED);
-        } else if (hop.getClass() == TransferwarehouseEntity.class) {
-            Transferwarehouse transferwarehouse = TransferwarehouseMapper.INSTANCE.entityToDto((TransferwarehouseEntity) hop);
-            return new ResponseEntity<>(transferwarehouse,HttpStatus.CREATED);
-        } else {
+        Hop hop = HopMapperDecorator.INSTANCE.entityToDto(warehouseService.getWarehouse(code));
+        if (hop == null){
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
+        return new ResponseEntity<>(hop, HttpStatus.CREATED);
     }
 
     @Override
