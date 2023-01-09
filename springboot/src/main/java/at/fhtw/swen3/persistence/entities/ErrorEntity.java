@@ -15,5 +15,5 @@ public class ErrorEntity {
     @Column
     private String errorMessage;
 
-
+    //
 }
