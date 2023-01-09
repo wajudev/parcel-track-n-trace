@@ -14,4 +14,6 @@ public class ErrorEntity {
     @Id
     @Column
     private String errorMessage;
+
+
 }
