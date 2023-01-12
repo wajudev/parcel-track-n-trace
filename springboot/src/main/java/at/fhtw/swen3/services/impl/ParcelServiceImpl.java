@@ -11,6 +11,7 @@ import at.fhtw.swen3.services.dto.WarehouseNextHops;
 import at.fhtw.swen3.services.mapper.RecipientMapper;
 import at.fhtw.swen3.services.validator.Validator;
 import lombok.NoArgsConstructor;
+import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -20,7 +21,6 @@ import java.time.LocalDateTime;
 import java.time.OffsetDateTime;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 import java.util.Random;
 
 
@@ -136,6 +136,10 @@ public class ParcelServiceImpl implements ParcelService {
         return hopArrivalEntity;
     }
 
+    private boolean hopExist(String code) {
+        return hopRepository.existsByCode(code);
+    }
+
     private WarehouseEntity getParentWarehouse(HopEntity hop){
         WarehouseNextHopsEntity warehouseNextHops = warehouseNextHopsRepository.findByHop(hop);
         List<WarehouseNextHopsEntity> warehouseNextHopsEntities = new ArrayList<>();
@@ -191,25 +195,43 @@ public class ParcelServiceImpl implements ParcelService {
     }
 
     @Override
-    public ParcelEntity reportParcelHop(String trackingId, String code) {
+    @Transactional
+    public void reportParcelHop(String trackingId, String code){
+        validator.validate(trackingId);
+
+        log.info("Searching for parcel with tracking ID: " + trackingId);
         ParcelEntity parcelEntity = parcelRepository.findByTrackingId(trackingId);
+        if (!parcelEntity.getFutureHops().get(0).getCode().equals(code)){
+            log.error("next hop of the parcel and hop code deosn't match");
+        }
 
-        HopEntity hopEntity = hopRepository.findByCode(code);
+        switch (getHopType(code)){
+            case "truck":
+                log.info("Setting state to In Truck Delivery");
+                parcelEntity.setState(TrackingInformation.StateEnum.INTRUCKDELIVERY);
+            case "warehouse":
+                log.info("Setting state to In Transport");
+                parcelEntity.setState(TrackingInformation.StateEnum.INTRANSPORT);
+            case "transferwarehouse":
+                log.info("Setting state to Transferred");
+                parcelEntity.setState(TrackingInformation.StateEnum.TRANSFERRED);
+        }
 
-        if (parcelEntity != null && hopEntity != null){
-            HopArrivalEntity hopArrivalEntity = HopArrivalEntity.builder()
-                    .dateTime(OffsetDateTime.now())
-                    .code(hopEntity.getCode())
-                    .description(hopEntity.getDescription())
-                    .build();
-            parcelEntity.getVisitedHops().add(hopArrivalEntity);
-            parcelRepository.save(parcelEntity);
-            return parcelEntity;
+        HopArrivalEntity hopArrival= parcelEntity.getFutureHops().remove(0);
+        hopArrival.setDateTime(OffsetDateTime.now());
+
+        parcelEntity.getVisitedHops().add(hopArrival);
+        parcelRepository.save(parcelEntity);
+    }
+
+    protected String getHopType(String code){
+        if (hopExist(code)) {
+            return String.valueOf(hopRepository.getHopTypeByCode(code));
         }
         return null;
     }
 
-   @Override
+    @Override
     public void deleteHopArrivalEntity(List<HopArrivalEntity> hops) {
         // TODO: Mach es genauer @Tom ;)
         hopArrivalRepository.deleteAllInBatch(hops);
