@@ -79,6 +79,9 @@ public class ParcelServiceImpl implements ParcelService {
         return new NewParcelInfo()
                 .trackingId(String.valueOf(newParcel.getTrackingId()));
     }
+    private List<HopArrivalEntity> getHopArrivalPath(GeoCoordinateEntity sender, GeoCoordinateEntity recipient){
+        return null;
+    }
 
     @Override
     public TrackingInformation trackParcel(String trackingId) {
