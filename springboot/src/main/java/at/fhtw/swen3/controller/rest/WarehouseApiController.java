@@ -5,6 +5,7 @@ import at.fhtw.swen3.controller.WarehouseApi;
 import at.fhtw.swen3.persistence.entities.TransferwarehouseEntity;
 import at.fhtw.swen3.persistence.entities.TruckEntity;
 import at.fhtw.swen3.persistence.entities.WarehouseEntity;
+import at.fhtw.swen3.services.BLException;
 import at.fhtw.swen3.services.ParcelService;
 import at.fhtw.swen3.services.WarehouseService;
 import at.fhtw.swen3.services.decorator.HopMapperDecorator;
@@ -51,9 +52,14 @@ public class WarehouseApiController implements WarehouseApi {
     }
 
     @Override
-    public ResponseEntity<Warehouse> exportWarehouses(){
-        Warehouse warehouse = WarehouseMapper.INSTANCE.entityToDto(warehouseService.exportWarehouses());
-        return ResponseEntity.of(Optional.ofNullable(warehouse));
+    public ResponseEntity<Warehouse> exportWarehouses() {
+        try {
+            log.info("Exporting all warehouses to JSON");
+            return new ResponseEntity<Warehouse>(warehouseService.exportWarehouses(), HttpStatus.OK);
+        } catch (Exception exception){
+            log.error("Response for content type application/json not serialized", exception);
+            return new ResponseEntity<Warehouse>(HttpStatus.BAD_REQUEST);
+        }
     }
 
     @Override
