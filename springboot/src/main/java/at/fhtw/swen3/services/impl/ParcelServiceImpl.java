@@ -1,10 +1,14 @@
 package at.fhtw.swen3.services.impl;
 
+import at.fhtw.swen3.gps.service.GeoEncodingService;
+import at.fhtw.swen3.gps.service.impl.OpenStreetMapEncodingProxy;
 import at.fhtw.swen3.persistence.entities.*;
 import at.fhtw.swen3.persistence.repositories.*;
 import at.fhtw.swen3.services.ParcelService;
 import at.fhtw.swen3.services.dto.NewParcelInfo;
 import at.fhtw.swen3.services.dto.TrackingInformation;
+import at.fhtw.swen3.services.dto.WarehouseNextHops;
+import at.fhtw.swen3.services.mapper.RecipientMapper;
 import at.fhtw.swen3.services.validator.Validator;
 import lombok.NoArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -12,7 +16,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.time.LocalDateTime;
 import java.time.OffsetDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.Random;
@@ -41,7 +47,17 @@ public class ParcelServiceImpl implements ParcelService {
     private HopArrivalRepository hopArrivalRepository;
 
     @Autowired
+    private WarehouseNextHopsRepository warehouseNextHopsRepository;
+
+    @Autowired
     private TrackingInformationRepository trackingInformationRepository;
+
+    @Autowired
+    private TruckRepository truckRepository;
+    @Autowired
+    private WarehouseRepository warehouseRepository;
+
+    private GeoEncodingService geoEncodingService = new OpenStreetMapEncodingProxy();
 
 
 
@@ -55,6 +71,8 @@ public class ParcelServiceImpl implements ParcelService {
         String uniqueKey = uniqueID();
         newParcel.setTrackingId(String.valueOf(uniqueKey));
         newParcel.setState(TrackingInformation.StateEnum.PICKUP);
+
+        // TODO: pathFinding(newParcel);
 
         return saveParcel(newParcel);
     }
@@ -79,8 +97,67 @@ public class ParcelServiceImpl implements ParcelService {
         return new NewParcelInfo()
                 .trackingId(String.valueOf(newParcel.getTrackingId()));
     }
-    private List<HopArrivalEntity> getHopArrivalPath(GeoCoordinateEntity sender, GeoCoordinateEntity recipient){
-        return null;
+    private void pathFinding(ParcelEntity newParcel){
+        GeoCoordinateEntity senderCoordinates = geoEncodingService.encodeAddress(
+                RecipientMapper.INSTANCE.recipientEntityToAddressEntitiy(newParcel.getSender()));
+        TruckEntity senderTruck = getNearestTruck(senderCoordinates);
+
+        GeoCoordinateEntity recipientCoordinates = geoEncodingService.encodeAddress(
+                RecipientMapper.INSTANCE.recipientEntityToAddressEntitiy(newParcel.getRecipient()));
+        TruckEntity recipientTruck = getNearestTruck(recipientCoordinates);
+
+        newParcel.getFutureHops().add(newHopArrivalEntity(senderTruck));
+        recursiveCommonWarehouse(senderTruck,recipientTruck,newParcel);
+        newParcel.getFutureHops().add(newHopArrivalEntity(recipientTruck));
+
+
+    }
+
+    private void recursiveCommonWarehouse(HopEntity sender, HopEntity recipient,ParcelEntity newParcel){
+        WarehouseEntity senderParent =getParentWarehouse(sender);
+        WarehouseEntity recipientParent = getParentWarehouse(recipient);
+        if(senderParent.equals(recipientParent)){
+
+        }else {
+            newParcel.getFutureHops().add(newHopArrivalEntity(senderParent));
+
+            recursiveCommonWarehouse(senderParent,recipientParent,newParcel);
+
+            newParcel.getFutureHops().add(newHopArrivalEntity(recipientParent));
+
+        }
+    }
+
+    private HopArrivalEntity newHopArrivalEntity(HopEntity hop){
+        HopArrivalEntity hopArrivalEntity = new HopArrivalEntity();
+        hopArrivalEntity.setCode(hop.getCode());
+        hopArrivalEntity.setDescription(hop.getDescription());
+        hopArrivalEntity.setDateTime(OffsetDateTime.now());
+        return hopArrivalEntity;
+    }
+
+    private WarehouseEntity getParentWarehouse(HopEntity hop){
+        WarehouseNextHopsEntity warehouseNextHops = warehouseNextHopsRepository.findByHop(hop);
+        List<WarehouseNextHopsEntity> warehouseNextHopsEntities = new ArrayList<>();
+        warehouseNextHopsEntities.add(warehouseNextHops);
+        return null; //TODO: warehouseRepository.findHop(hop.getId());
+    }
+    private TruckEntity getNearestTruck(GeoCoordinateEntity recipientCoordinates){
+        List<TruckEntity> trucks = truckRepository.findAll();
+        TruckEntity shortestDistanceTruck = new TruckEntity();
+        double distance =0;
+        for (TruckEntity truck: trucks) {
+            double tmpDistance = getDistance(truck.getLocationCoordinates(),recipientCoordinates);
+            if(tmpDistance < distance){
+                shortestDistanceTruck = truck;
+                distance = tmpDistance;
+            }
+        }
+        return shortestDistanceTruck;
+    }
+    private double getDistance(GeoCoordinateEntity startPoint, GeoCoordinateEntity endPoint){
+        return Math.sqrt(Math.pow(startPoint.getLat()-endPoint.getLat(),2)+
+                Math.pow(startPoint.getLon()-endPoint.getLon(),2));
     }
 
     @Override
