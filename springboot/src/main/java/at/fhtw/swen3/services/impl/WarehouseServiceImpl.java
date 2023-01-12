@@ -3,7 +3,9 @@ package at.fhtw.swen3.services.impl;
 import at.fhtw.swen3.persistence.entities.*;
 import at.fhtw.swen3.persistence.repositories.*;
 import at.fhtw.swen3.services.WarehouseService;
+import at.fhtw.swen3.services.dto.Hop;
 import at.fhtw.swen3.services.dto.Warehouse;
+import at.fhtw.swen3.services.mapper.HopMapper;
 import at.fhtw.swen3.services.mapper.WarehouseMapper;
 import at.fhtw.swen3.services.validator.Validator;
 import lombok.NoArgsConstructor;
@@ -86,8 +88,11 @@ public class WarehouseServiceImpl implements WarehouseService {
     }
 
     @Override
-    public HopEntity getWarehouse(String code) {
-        return hopRepository.findByCode(code);
+    @Transactional
+    public Hop getWarehouse(String code) {
+        // TODO Exceptions & guard clauses
+        HopEntity hopEntity = hopRepository.findByCode(code);
+        return HopMapper.INSTANCE.entityToDto(hopEntity);
     }
 
     @Override

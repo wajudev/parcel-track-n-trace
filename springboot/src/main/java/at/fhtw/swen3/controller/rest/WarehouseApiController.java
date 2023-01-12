@@ -64,10 +64,12 @@ public class WarehouseApiController implements WarehouseApi {
 
     @Override
     public ResponseEntity<Hop> getWarehouse(String code){
-        Hop hop = HopMapperDecorator.INSTANCE.entityToDto(warehouseService.getWarehouse(code));
+        Hop hop = warehouseService.getWarehouse(code);
         if (hop == null){
+            log.error("No such warehouse with code: " + code);
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
+        log.info("Warehouse with code: " + code + " exists");
         return new ResponseEntity<>(hop, HttpStatus.CREATED);
     }
 
