@@ -14,11 +14,11 @@ import java.util.List;
 public interface WarehouseRepository extends JpaRepository<WarehouseEntity, Long> {
     //WarehouseEntity findByNextHops(List<WarehouseNextHopsEntity> warehouseNextHopsEntities);
 
-   /* @Query(value =
-            "SELECT id FROM hop WHERE hop.id = " +
+    @Query(value =
+            "SELECT * FROM hop WHERE hop.id = " +
                     "(SELECT hop_next_hops.warehouse_entity_id FROM hop_next_hops WHERE hop_next_hops.next_hops_id = " +
                     "(SELECT warehouse_next_hops.id FROM warehouse_next_hops" +
-                    " WHERE warehouse_next_hops.hop_id = :hopId))")
-    WarehouseEntity findHop(@Param("hopId") Long id);*/
+                    " WHERE warehouse_next_hops.hop_id = :hopId))",nativeQuery = true)
+    WarehouseEntity findHop(@Param("hopId") Long id);
     List<WarehouseEntity> findByLevel(int level);
 }

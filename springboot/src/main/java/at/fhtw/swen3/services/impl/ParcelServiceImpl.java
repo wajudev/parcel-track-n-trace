@@ -72,7 +72,7 @@ public class ParcelServiceImpl implements ParcelService {
         newParcel.setTrackingId(String.valueOf(uniqueKey));
         newParcel.setState(TrackingInformation.StateEnum.PICKUP);
 
-        // TODO: pathFinding(newParcel);
+        pathFinding(newParcel);
 
         return saveParcel(newParcel);
     }
@@ -98,17 +98,28 @@ public class ParcelServiceImpl implements ParcelService {
                 .trackingId(String.valueOf(newParcel.getTrackingId()));
     }
     private void pathFinding(ParcelEntity newParcel){
+        log.info("Encoding sender coordinates");
         GeoCoordinateEntity senderCoordinates = geoEncodingService.encodeAddress(
                 RecipientMapper.INSTANCE.recipientEntityToAddressEntitiy(newParcel.getSender()));
+        log.info("Searching for nearest truck to sender");
         TruckEntity senderTruck = getNearestTruck(senderCoordinates);
+        log.info(senderTruck.toString());
 
+        log.info("Encoding recipient coordinates");
         GeoCoordinateEntity recipientCoordinates = geoEncodingService.encodeAddress(
                 RecipientMapper.INSTANCE.recipientEntityToAddressEntitiy(newParcel.getRecipient()));
+        log.info("Searching for nearest truck to recipient");
         TruckEntity recipientTruck = getNearestTruck(recipientCoordinates);
 
-        newParcel.getFutureHops().add(newHopArrivalEntity(senderTruck));
+        log.info("Adding future hop");
+        List<HopArrivalEntity> hopArrivalEntities = new ArrayList<>();
+        hopArrivalEntities.add(newHopArrivalEntity(senderTruck));
+        newParcel.setFutureHops(hopArrivalEntities);
+        log.info("Searching nearest common truck");
         recursiveCommonWarehouse(senderTruck,recipientTruck,newParcel);
-        newParcel.getFutureHops().add(newHopArrivalEntity(recipientTruck));
+        log.info("Adding future hop 2");
+        hopArrivalEntities.add(newHopArrivalEntity(recipientTruck));
+        newParcel.setFutureHops(hopArrivalEntities);
 
 
     }
@@ -116,15 +127,14 @@ public class ParcelServiceImpl implements ParcelService {
     private void recursiveCommonWarehouse(HopEntity sender, HopEntity recipient,ParcelEntity newParcel){
         WarehouseEntity senderParent =getParentWarehouse(sender);
         WarehouseEntity recipientParent = getParentWarehouse(recipient);
+        List<HopArrivalEntity> hopArrivalEntities =newParcel.getFutureHops();
         if(senderParent.equals(recipientParent)){
-
+            hopArrivalEntities.add(newHopArrivalEntity(senderParent));
+            newParcel.setFutureHops(hopArrivalEntities);
         }else {
-            newParcel.getFutureHops().add(newHopArrivalEntity(senderParent));
-
+            hopArrivalEntities.add(newHopArrivalEntity(senderParent));
             recursiveCommonWarehouse(senderParent,recipientParent,newParcel);
-
-            newParcel.getFutureHops().add(newHopArrivalEntity(recipientParent));
-
+            hopArrivalEntities.add(newHopArrivalEntity(senderParent));
         }
     }
 
@@ -140,22 +150,27 @@ public class ParcelServiceImpl implements ParcelService {
         WarehouseNextHopsEntity warehouseNextHops = warehouseNextHopsRepository.findByHop(hop);
         List<WarehouseNextHopsEntity> warehouseNextHopsEntities = new ArrayList<>();
         warehouseNextHopsEntities.add(warehouseNextHops);
-        return null; //TODO: warehouseRepository.findHop(hop.getId());
+        return warehouseRepository.findHop(hop.getId());
     }
     private TruckEntity getNearestTruck(GeoCoordinateEntity recipientCoordinates){
+        log.info("Getting all trucks from DB");
         List<TruckEntity> trucks = truckRepository.findAll();
         TruckEntity shortestDistanceTruck = new TruckEntity();
-        double distance =0;
+        double distance =Integer.MAX_VALUE;
         for (TruckEntity truck: trucks) {
             double tmpDistance = getDistance(truck.getLocationCoordinates(),recipientCoordinates);
             if(tmpDistance < distance){
                 shortestDistanceTruck = truck;
                 distance = tmpDistance;
+                log.error(distance+"");
             }
         }
+
         return shortestDistanceTruck;
     }
     private double getDistance(GeoCoordinateEntity startPoint, GeoCoordinateEntity endPoint){
+        log.info(startPoint.getLat()+" "+startPoint.getLon());
+        log.info(endPoint.getLat()+" "+endPoint.getLon());
         return Math.sqrt(Math.pow(startPoint.getLat()-endPoint.getLat(),2)+
                 Math.pow(startPoint.getLon()-endPoint.getLon(),2));
     }
