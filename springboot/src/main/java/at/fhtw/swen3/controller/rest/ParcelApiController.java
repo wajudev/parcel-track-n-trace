@@ -86,7 +86,7 @@ public class ParcelApiController implements ParcelApi {
     @Override
     public ResponseEntity<Void> reportParcelHop(String trackingId, String code){
         parcelService.reportParcelHop(trackingId, code);
-        return new ResponseEntity<>(HttpStatus.OK);
+        return new ResponseEntity<Void>(HttpStatus.OK);
     }
 
     @Override
