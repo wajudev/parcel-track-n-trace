@@ -232,10 +232,10 @@ public class ParcelServiceImpl implements ParcelService {
                 parcelEntity.setState(TrackingInformation.StateEnum.TRANSFERRED);
         }
 
-        HopArrivalEntity hopArrival= parcelEntity.getFutureHops().remove(0);
-        hopArrival.setDateTime(OffsetDateTime.now());
+        HopArrivalEntity hopArrivalEntity = parcelEntity.getFutureHops().remove(0);
+        hopArrivalEntity.setDateTime(OffsetDateTime.now());
 
-        parcelEntity.getVisitedHops().add(hopArrival);
+        parcelEntity.getVisitedHops().add(hopArrivalEntity);
         parcelRepository.save(parcelEntity);
     }
 
