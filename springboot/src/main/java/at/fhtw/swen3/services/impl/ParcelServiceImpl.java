@@ -83,6 +83,7 @@ public class ParcelServiceImpl implements ParcelService {
     public NewParcelInfo transitionParcel(ParcelEntity parcel) {
         log.info("Changing State to transfered");
         parcel.setState(TrackingInformation.StateEnum.TRANSFERRED);
+        pathFinding(parcel);
         return saveParcel(parcel);
     }
 
