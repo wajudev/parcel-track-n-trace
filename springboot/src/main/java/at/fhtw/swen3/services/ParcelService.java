@@ -33,7 +33,7 @@ public interface ParcelService {
 
     TrackingInformation trackParcel(String trackingId);
 
-    ParcelEntity reportParcelDelivery(String trackingId);
+    void reportParcelDelivery(String trackingId);
     void reportParcelHop(String trackingId, String code);
 
 
