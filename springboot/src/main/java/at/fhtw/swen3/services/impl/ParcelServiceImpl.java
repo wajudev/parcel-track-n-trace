@@ -168,15 +168,12 @@ public class ParcelServiceImpl implements ParcelService {
             if(tmpDistance < distance){
                 shortestDistanceTruck = truck;
                 distance = tmpDistance;
-                log.error(distance+"");
             }
         }
 
         return shortestDistanceTruck;
     }
     private double getDistance(GeoCoordinateEntity startPoint, GeoCoordinateEntity endPoint){
-        log.info(startPoint.getLat()+" "+startPoint.getLon());
-        log.info(endPoint.getLat()+" "+endPoint.getLon());
         return Math.sqrt(Math.pow(startPoint.getLat()-endPoint.getLat(),2)+
                 Math.pow(startPoint.getLon()-endPoint.getLon(),2));
     }
@@ -188,7 +185,6 @@ public class ParcelServiceImpl implements ParcelService {
         if (entity != null) {
             TrackingInformation trackingInformation = new TrackingInformation();
             trackingInformation.setState(entity.getState());
-            List<HopArrivalEntity> hopArrivalEntities = entity.getFutureHops();
             trackingInformation.setFutureHops(HopArrivalMapper.INSTANCE.entitiesToDtos(entity.getFutureHops()));
             trackingInformation.setVisitedHops(HopArrivalMapper.INSTANCE.entitiesToDtos(entity.getVisitedHops()));
             log.info("Parcel with trackingId: "+trackingId+" found");
