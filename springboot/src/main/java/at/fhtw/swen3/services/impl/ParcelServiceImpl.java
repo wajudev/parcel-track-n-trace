@@ -201,7 +201,7 @@ public class ParcelServiceImpl implements ParcelService {
         ParcelEntity parcelEntity = parcelRepository.findByTrackingId(trackingId);
         if (!parcelEntity.getFutureHops().isEmpty()){
             log.error("Parcel must have no future hops before it can be delivered");
-            // An exception would be nice here
+            // TODO An exception would be nice here @Tom
         }
         changeTrackingStateToDelivered(parcelEntity);
     }
@@ -219,7 +219,8 @@ public class ParcelServiceImpl implements ParcelService {
         log.info("Searching for parcel with tracking ID: " + trackingId);
         ParcelEntity parcelEntity = parcelRepository.findByTrackingId(trackingId);
         if (!parcelEntity.getFutureHops().get(0).getCode().equals(code)){
-            log.error("next hop of the parcel and hop code deosn't match");
+            log.error("next hop of the parcel and hop code doesn't match");
+            // TODO An exception would be nice here @Tom
         }
 
         switch (getHopType(code)){
