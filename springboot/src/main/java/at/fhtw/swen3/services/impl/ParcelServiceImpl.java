@@ -182,12 +182,12 @@ public class ParcelServiceImpl implements ParcelService {
     @Override
     public TrackingInformation trackParcel(String trackingId) {
         log.info("Searching for Parcel in DB");
-        ParcelEntity entity = parcelRepository.findByTrackingId(trackingId);
-        if (entity != null) {
+        ParcelEntity parcelEntity = parcelRepository.findByTrackingId(trackingId);
+        if (parcelEntity != null) {
             TrackingInformation trackingInformation = new TrackingInformation();
-            trackingInformation.setState(entity.getState());
-            trackingInformation.setFutureHops(HopArrivalMapper.INSTANCE.entitiesToDtos(entity.getFutureHops()));
-            trackingInformation.setVisitedHops(HopArrivalMapper.INSTANCE.entitiesToDtos(entity.getVisitedHops()));
+            trackingInformation.setState(parcelEntity.getState());
+            trackingInformation.setFutureHops(HopArrivalMapper.INSTANCE.entitiesToDtos(parcelEntity.getFutureHops()));
+            trackingInformation.setVisitedHops(HopArrivalMapper.INSTANCE.entitiesToDtos(parcelEntity.getVisitedHops()));
             log.info("Parcel with trackingId: "+trackingId+" found");
             return trackingInformation;
         }
@@ -197,18 +197,19 @@ public class ParcelServiceImpl implements ParcelService {
 
 
     @Override
-    public ParcelEntity reportParcelDelivery(String trackingId) {
+    public void reportParcelDelivery(String trackingId) {
+        validator.validate(trackingId);
         ParcelEntity parcelEntity = parcelRepository.findByTrackingId(trackingId);
-        if (parcelEntity != null){
-            return changeTrackingStateToDelivered(parcelEntity);
+        if (!parcelEntity.getFutureHops().isEmpty()){
+            log.error("Parcel must have no future hops before it can be delivered");
+            // An exception would be nice here
         }
-        return null;
+        changeTrackingStateToDelivered(parcelEntity);
     }
 
-    private ParcelEntity changeTrackingStateToDelivered(ParcelEntity parcelEntity){
+    private void changeTrackingStateToDelivered(ParcelEntity parcelEntity){
         parcelEntity.setState(TrackingInformation.StateEnum.DELIVERED);
         parcelRepository.save(parcelEntity);
-        return parcelEntity;
     }
 
     @Override
