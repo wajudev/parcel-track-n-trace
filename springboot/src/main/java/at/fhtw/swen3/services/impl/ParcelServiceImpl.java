@@ -5,9 +5,11 @@ import at.fhtw.swen3.gps.service.impl.OpenStreetMapEncodingProxy;
 import at.fhtw.swen3.persistence.entities.*;
 import at.fhtw.swen3.persistence.repositories.*;
 import at.fhtw.swen3.services.ParcelService;
+import at.fhtw.swen3.services.dto.HopArrival;
 import at.fhtw.swen3.services.dto.NewParcelInfo;
 import at.fhtw.swen3.services.dto.TrackingInformation;
 import at.fhtw.swen3.services.dto.WarehouseNextHops;
+import at.fhtw.swen3.services.mapper.HopArrivalMapper;
 import at.fhtw.swen3.services.mapper.RecipientMapper;
 import at.fhtw.swen3.services.validator.Validator;
 import lombok.NoArgsConstructor;
@@ -134,7 +136,7 @@ public class ParcelServiceImpl implements ParcelService {
         }else {
             hopArrivalEntities.add(newHopArrivalEntity(senderParent));
             recursiveCommonWarehouse(senderParent,recipientParent,newParcel);
-            hopArrivalEntities.add(newHopArrivalEntity(senderParent));
+            hopArrivalEntities.add(newHopArrivalEntity(recipientParent));
         }
     }
 
@@ -186,6 +188,9 @@ public class ParcelServiceImpl implements ParcelService {
         if (entity != null) {
             TrackingInformation trackingInformation = new TrackingInformation();
             trackingInformation.setState(entity.getState());
+            List<HopArrivalEntity> hopArrivalEntities = entity.getFutureHops();
+            trackingInformation.setFutureHops(HopArrivalMapper.INSTANCE.entitiesToDtos(entity.getFutureHops()));
+            trackingInformation.setVisitedHops(HopArrivalMapper.INSTANCE.entitiesToDtos(entity.getVisitedHops()));
             log.info("Parcel with trackingId: "+trackingId+" found");
             return trackingInformation;
         }
