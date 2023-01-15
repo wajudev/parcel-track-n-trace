@@ -12,7 +12,7 @@ class OpenStreetMapEncodingProxyTest {
         var geoEncodingService = new OpenStreetMapEncodingProxy();
         var address = AddressEntity.builder()
                 .street("Höchstädtplatz 6")
-                .postalcode("1200")
+                .postalcode("A-1200")
                 .city("Vienna")
                 .country("Austria")
                 .build();

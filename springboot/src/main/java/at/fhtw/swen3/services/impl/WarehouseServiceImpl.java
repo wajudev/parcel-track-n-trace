@@ -41,7 +41,7 @@ public class WarehouseServiceImpl implements WarehouseService {
 
 
     @Override
-    @Transactional
+
     public Warehouse exportWarehouses() throws Exception{
         List<WarehouseEntity> entities = warehouseRepository.findByLevel(0);
         if (entities.isEmpty()){
@@ -88,7 +88,6 @@ public class WarehouseServiceImpl implements WarehouseService {
     }
 
     @Override
-    @Transactional
     public Hop getWarehouse(String code) {
         // TODO Exceptions & guard clauses
         HopEntity hopEntity = hopRepository.findByCode(code);
