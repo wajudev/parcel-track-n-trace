@@ -181,6 +181,7 @@ public class ParcelServiceImpl implements ParcelService {
 
     @Override
     public TrackingInformation trackParcel(String trackingId) {
+        validator.validate(trackingId);
         log.info("Searching for Parcel in DB");
         ParcelEntity parcelEntity = parcelRepository.findByTrackingId(trackingId);
         if (parcelEntity != null) {
@@ -223,17 +224,20 @@ public class ParcelServiceImpl implements ParcelService {
             log.error("next hop of the parcel and hop code doesn't match");
             // TODO An exception would be nice here @Tom
         }
-
+        System.out.println(getHopType(code));
         switch (getHopType(code)){
             case "truck":
                 log.info("Setting state to In Truck Delivery");
                 parcelEntity.setState(TrackingInformation.StateEnum.INTRUCKDELIVERY);
+                break;
             case "warehouse":
                 log.info("Setting state to In Transport");
                 parcelEntity.setState(TrackingInformation.StateEnum.INTRANSPORT);
+                break;
             case "transferwarehouse":
                 log.info("Setting state to Transferred");
                 parcelEntity.setState(TrackingInformation.StateEnum.TRANSFERRED);
+                break;
         }
 
         HopArrivalEntity hopArrivalEntity = parcelEntity.getFutureHops().remove(0);
@@ -244,10 +248,7 @@ public class ParcelServiceImpl implements ParcelService {
     }
 
     protected String getHopType(String code){
-        if (hopExist(code)) {
-            return String.valueOf(hopRepository.getHopTypeByCode(code));
-        }
-        return null;
+        return hopRepository.getHopTypeByCode(code);
     }
 
     @Override

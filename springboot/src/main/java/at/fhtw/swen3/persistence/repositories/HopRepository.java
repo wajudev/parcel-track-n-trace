@@ -13,5 +13,5 @@ public interface HopRepository extends JpaRepository<HopEntity, Long> {
     HopEntity findByCode(String code);
     Boolean existsByCode(String code);
     @Query(value = "SELECT hop_type FROM hop WHERE code = ?1", nativeQuery = true)
-    Optional<String> getHopTypeByCode(String code);
+    String getHopTypeByCode(String code);
 }
