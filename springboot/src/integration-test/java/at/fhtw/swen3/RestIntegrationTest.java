@@ -7,6 +7,7 @@ import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMock
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.util.ResourceUtils;
 
 import java.io.File;
@@ -25,9 +26,37 @@ public class RestIntegrationTest {
     private MockMvc mockMvc;
 
     @Test
-    public void submit_parcel() throws Exception {
+    public String submit_parcel() throws Exception {
 
-        mockMvc.perform(post("/parcel")
+        MvcResult result =mockMvc.perform(post("/parcel")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content("{\n" +
+                                "  \"weight\": 20,\n" +
+                                "  \"recipient\": {\n" +
+                                "    \"name\": \"Malte\",\n" +
+                                "    \"street\": \"Matzleinsdorfer Platz 4\",\n" +
+                                "    \"postalCode\": \"A-1200\",\n" +
+                                "    \"city\": \"Vienna\",\n" +
+                                "    \"country\": \"Austria\"\n" +
+                                "  },\n" +
+                                "  \"sender\": {\n" +
+                                "    \"name\": \"ok\",\n" +
+                                "    \"street\": \"Gerhardusgasse 21\",\n" +
+                                "    \"postalCode\": \"A-1200\",\n" +
+                                "    \"city\": \"Vienna\",\n" +
+                                "    \"country\": \"Austria\"\n" +
+                                "  }\n" +
+                                "}"))
+                .andExpect(status().isCreated())
+                .andReturn();
+
+        return  result.getResponse().getContentAsString().split("\"")[3];
+    }
+
+    @Test
+    public void transition_parcel() throws Exception {
+
+        mockMvc.perform(post("/parcel/PYJRB4HZ6")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content("{\n" +
                                 "  \"weight\": 20,\n" +
@@ -47,7 +76,15 @@ public class RestIntegrationTest {
                                 "  }\n" +
                                 "}"))
                 .andExpect(status().isOk());
+    }
 
+    @Test
+    public void track_parcel() throws Exception {
+
+        mockMvc.perform(get("/parcel/PYJRB4HZ6")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(""))
+                .andExpect(status().isOk());
     }
 
     @Test
@@ -71,4 +108,6 @@ public class RestIntegrationTest {
                         .content(""))
                 .andExpect(status().isOk());
     }
+
+
 }
