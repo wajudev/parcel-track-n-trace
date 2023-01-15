@@ -99,32 +99,4 @@ public class RestIntegrationTest {
         getParcelWithTrackingID(trackingID);
     }
 
-
-
-
-
-
-/*    @Test
-    public void post_warehouse() throws Exception {
-        // Read the JSON file
-        File file = ResourceUtils.getFile("classpath:test.json");
-        String json = new String(Files.readAllBytes(file.toPath()));
-
-        // Send the POST request and verify the response
-        mockMvc.perform(post("/warehouse")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(json))
-                .andExpect(status().isOk());
-    }
-
-    @Test
-    public void get_warehouse() throws Exception {
-        // Send the GET request and verify the response
-        mockMvc.perform(get("/warehouse")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(""))
-                .andExpect(status().isOk());
-    }*/
-
-
 }
