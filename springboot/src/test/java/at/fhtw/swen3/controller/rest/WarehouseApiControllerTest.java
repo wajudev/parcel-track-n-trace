@@ -11,6 +11,7 @@ import org.springframework.util.ResourceUtils;
 import java.io.File;
 import java.nio.file.Files;
 
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -33,6 +34,15 @@ class WarehouseApiControllerTest {
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(json))
                         .andExpect(status().isOk());
+    }
+
+    @Test
+    public void get_warehouse() throws Exception {
+        // Send the GET request and verify the response
+        mockMvc.perform(get("/warehouse")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(""))
+                .andExpect(status().isOk());
     }
 
 
