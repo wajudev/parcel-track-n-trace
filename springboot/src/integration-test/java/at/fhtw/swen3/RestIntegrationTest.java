@@ -22,6 +22,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.nio.file.Files;
+import java.util.List;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
@@ -34,7 +35,7 @@ public class RestIntegrationTest {
     @Autowired
     private MockMvc mockMvc;
 
-    private String code = "WTTA069";
+    private String[] codes = {"WTTA069", "WENB01", "WTTA030"};
 
 
     public String submit_parcel() throws Exception {
@@ -64,26 +65,41 @@ public class RestIntegrationTest {
     }
 
     public void getParcelWithTrackingID(String trackingID) throws Exception{
-        MvcResult result = mockMvc.perform(get("/parcel/" + trackingID)
+        mockMvc.perform(get("/parcel/" + trackingID)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(""))
-                    .andExpect(status().isOk())
-                    .andReturn();
+                    .andExpect(status().isOk());
     }
 
-    public void report_hopArrival(String trackingID, String code) throws Exception{
+    public void reportHopArrival(String trackingID, String code) throws Exception{
         mockMvc.perform(post("/parcel/" + trackingID + "/reportHop/" + code)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(""))
                 .andExpect(status().isOk());
     }
 
+    private void reportFinalDelivery(String trackingID) throws Exception {
+        mockMvc.perform(post("/parcel/" + trackingID + "/reportDelivery/")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(""))
+                .andExpect(status().isOk());
+    }
+
+
     @Test
     public void parcel_journey() throws Exception {
         String trackingID = submit_parcel();
         getParcelWithTrackingID(trackingID);
-        report_hopArrival(trackingID, code);
+        reportHopArrival(trackingID, codes[0]);
+        getParcelWithTrackingID(trackingID);
+        reportHopArrival(trackingID, codes[1]);
+        getParcelWithTrackingID(trackingID);
+        reportHopArrival(trackingID, codes[2]);
+        reportFinalDelivery(trackingID);
+        getParcelWithTrackingID(trackingID);
     }
+
+
 
 
 
