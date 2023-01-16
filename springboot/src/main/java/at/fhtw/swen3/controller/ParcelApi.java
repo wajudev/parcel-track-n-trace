@@ -38,12 +38,12 @@ public interface ParcelApi {
     }
 
     /**
-     * POST /parcel/{trackingId}/reportDelivery/ : Report that a Parcel has been delivered at it&#39;s final destination address. 
+     * POST /parcel/{trackingId}/reportDelivery/ : Report that a Parcel has been delivered at it&#39;s final destination address.
      *
      * @param trackingId The tracking ID of the parcel. E.g. PYJRB4HZ6  (required)
      * @return Successfully reported hop. (status code 200)
-     *         or The operation failed due to an error. (status code 400)
-     *         or Parcel does not exist with this tracking ID.  (status code 404)
+     * or The operation failed due to an error. (status code 400)
+     * or Parcel does not exist with this tracking ID.  (status code 404)
      */
     @Operation(
         operationId = "reportParcelDelivery",
@@ -62,7 +62,7 @@ public interface ParcelApi {
         value = "/parcel/{trackingId}/reportDelivery/",
         produces = { "application/json" }
     )
-    default ResponseEntity<Void> reportParcelDelivery(
+    default ResponseEntity<String> reportParcelDelivery(
         @Pattern(regexp = "^[A-Z0-9]{9}$") @Parameter(name = "trackingId", description = "The tracking ID of the parcel. E.g. PYJRB4HZ6 ", required = true) @PathVariable("trackingId") String trackingId
     ) {
         return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
@@ -71,13 +71,13 @@ public interface ParcelApi {
 
 
     /**
-     * POST /parcel/{trackingId}/reportHop/{code} : Report that a Parcel has arrived at a certain hop either Warehouse or Truck. 
+     * POST /parcel/{trackingId}/reportHop/{code} : Report that a Parcel has arrived at a certain hop either Warehouse or Truck.
      *
      * @param trackingId The tracking ID of the parcel. E.g. PYJRB4HZ6  (required)
-     * @param code The Code of the hop (Warehouse or Truck). (required)
+     * @param code       The Code of the hop (Warehouse or Truck). (required)
      * @return Successfully reported hop. (status code 200)
-     *         or Parcel does not exist with this tracking ID or hop with code not found.  (status code 404)
-     *         or The operation failed due to an error. (status code 400)
+     * or Parcel does not exist with this tracking ID or hop with code not found.  (status code 404)
+     * or The operation failed due to an error. (status code 400)
      */
     @Operation(
         operationId = "reportParcelHop",
@@ -96,7 +96,7 @@ public interface ParcelApi {
         value = "/parcel/{trackingId}/reportHop/{code}",
         produces = { "application/json" }
     )
-    default ResponseEntity<Void> reportParcelHop(
+    default ResponseEntity<String> reportParcelHop(
         @Pattern(regexp = "^[A-Z0-9]{9}$") @Parameter(name = "trackingId", description = "The tracking ID of the parcel. E.g. PYJRB4HZ6 ", required = true) @PathVariable("trackingId") String trackingId,
         @Pattern(regexp = "^[A-Z]{4}\\d{1,4}$") @Parameter(name = "code", description = "The Code of the hop (Warehouse or Truck).", required = true) @PathVariable("code") String code
     ) {

@@ -20,13 +20,15 @@ public class OpenStreetMapEncodingProxy implements GeoEncodingService {
     public GeoCoordinateEntity encodeAddress(AddressEntity address) {
         HttpRequest request;
         try {
+            //Split to delete A-...
+            String postalCode = address.getPostalcode().split("-")[1];
             URI uri = UriComponentsBuilder.newInstance()
                     .scheme("https")
                     .host("nominatim.openstreetmap.org")
                     .path("/search")
                     .queryParam("street", address.getStreet())
                     .queryParam("city", address.getCity())
-                    .queryParam("postalcode", address.getPostalcode())
+                    .queryParam("postalcode", postalCode)
                     .queryParam("country", address.getCountry())
                     .queryParam("format", "geojson")
                     .build()
@@ -55,11 +57,10 @@ public class OpenStreetMapEncodingProxy implements GeoEncodingService {
 
         try {
             var root = new ObjectMapper().readTree(response.body());
-            System.out.println(root.get("features"));
             var coordinates = root.get("features").get(0).get("geometry").get("coordinates");
             GeoCoordinateEntity result = GeoCoordinateEntity.builder()
-                    .lat(coordinates.get(0).asDouble())
-                    .lon(coordinates.get(1).asDouble())
+                    .lat(coordinates.get(1).asDouble())
+                    .lon(coordinates.get(0).asDouble())
                     .build();
             return result;
         } catch (JsonProcessingException exception) {

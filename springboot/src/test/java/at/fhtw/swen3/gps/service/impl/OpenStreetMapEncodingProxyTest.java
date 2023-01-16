@@ -12,14 +12,14 @@ class OpenStreetMapEncodingProxyTest {
         var geoEncodingService = new OpenStreetMapEncodingProxy();
         var address = AddressEntity.builder()
                 .street("Höchstädtplatz 6")
-                .postalcode("1200")
+                .postalcode("A-1200")
                 .city("Vienna")
                 .country("Austria")
                 .build();
         var result = geoEncodingService.encodeAddress(address);
 
         assertNotNull(result);
-        assertEquals(16.3774409, result.getLat());
-        assertEquals(48.2391664, result.getLon());
+        assertEquals(16.3774409, result.getLon());
+        assertEquals(48.2391664, result.getLat());
     }
 }

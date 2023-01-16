@@ -2,21 +2,11 @@ package at.fhtw.swen3.controller.rest;
 
 
 import at.fhtw.swen3.controller.WarehouseApi;
-import at.fhtw.swen3.persistence.entities.TransferwarehouseEntity;
-import at.fhtw.swen3.persistence.entities.TruckEntity;
 import at.fhtw.swen3.persistence.entities.WarehouseEntity;
-import at.fhtw.swen3.services.ParcelService;
 import at.fhtw.swen3.services.WarehouseService;
-import at.fhtw.swen3.services.decorator.HopMapperDecorator;
 import at.fhtw.swen3.services.dto.Hop;
-import at.fhtw.swen3.services.dto.Transferwarehouse;
-import at.fhtw.swen3.services.dto.Truck;
 import at.fhtw.swen3.services.dto.Warehouse;
-import at.fhtw.swen3.services.mapper.HopMapper;
-import at.fhtw.swen3.services.mapper.TransferwarehouseMapper;
-import at.fhtw.swen3.services.mapper.TruckMapper;
 import at.fhtw.swen3.services.mapper.WarehouseMapper;
-import lombok.NoArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -51,25 +41,32 @@ public class WarehouseApiController implements WarehouseApi {
     }
 
     @Override
-    public ResponseEntity<Warehouse> exportWarehouses(){
-        Warehouse warehouse = WarehouseMapper.INSTANCE.entityToDto(warehouseService.exportWarehouses());
-        return ResponseEntity.of(Optional.ofNullable(warehouse));
+    public ResponseEntity<Warehouse> exportWarehouses() {
+        try {
+            log.info("Exporting all warehouses to JSON");
+            return new ResponseEntity<Warehouse>(warehouseService.exportWarehouses(), HttpStatus.OK);
+        } catch (Exception exception){
+            log.error("Response for content type application/json not serialized", exception);
+            return new ResponseEntity<Warehouse>(HttpStatus.BAD_REQUEST);
+        }
     }
 
     @Override
     public ResponseEntity<Hop> getWarehouse(String code){
-        Hop hop = HopMapperDecorator.INSTANCE.entityToDto(warehouseService.getWarehouse(code));
+        Hop hop = warehouseService.getWarehouse(code);
         if (hop == null){
+            log.error("No such warehouse with code: " + code);
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
+        log.info("Warehouse with code: " + code + " exists");
         return new ResponseEntity<>(hop, HttpStatus.CREATED);
     }
 
     @Override
-    public ResponseEntity<Void> importWarehouses(Warehouse warehouse){
+    public ResponseEntity<String> importWarehouses(Warehouse warehouse){
         WarehouseEntity warehouseEntity = WarehouseMapper.INSTANCE.dtoToEntity(warehouse);
         warehouseService.importWarehouses(warehouseEntity);
-        return new ResponseEntity<>(HttpStatus.OK);
+        return new ResponseEntity<>("Successfully loaded", HttpStatus.OK);
     }
 
 }
