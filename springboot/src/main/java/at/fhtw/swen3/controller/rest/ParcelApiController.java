@@ -1,7 +1,6 @@
 package at.fhtw.swen3.controller.rest;
 
 
-import at.fhtw.swen3.controller.ApiUtil;
 import at.fhtw.swen3.controller.ParcelApi;
 import at.fhtw.swen3.persistence.entities.ParcelEntity;
 import at.fhtw.swen3.services.ParcelService;
@@ -13,10 +12,8 @@ import io.swagger.v3.oas.annotations.Parameter;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -24,7 +21,6 @@ import org.springframework.web.context.request.NativeWebRequest;
 
 import java.util.Optional;
 import javax.annotation.Generated;
-import javax.validation.constraints.Pattern;
 
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2022-09-22T22:59:08.396768Z[Etc/UTC]")
 @Controller
@@ -84,15 +80,15 @@ public class ParcelApiController implements ParcelApi {
     }
 
     @Override
-    public ResponseEntity<Void> reportParcelHop(String trackingId, String code){
+    public ResponseEntity<String> reportParcelHop(String trackingId, String code){
         parcelService.reportParcelHop(trackingId, code);
-        return new ResponseEntity<Void>(HttpStatus.OK);
+        return new ResponseEntity<>("Successfully reported hop", HttpStatus.OK);
     }
 
     @Override
-    public ResponseEntity<Void> reportParcelDelivery(String trackingId){
+    public ResponseEntity<String> reportParcelDelivery(String trackingId){
         parcelService.reportParcelDelivery(trackingId);
-        return new ResponseEntity<>(HttpStatus.OK);
+        return new ResponseEntity<>("Successfully reported hop", HttpStatus.OK);
     }
 
 }

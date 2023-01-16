@@ -6,6 +6,7 @@ import at.fhtw.swen3.services.dto.Parcel;
 import at.fhtw.swen3.services.mapper.HopArrivalMapper;
 import at.fhtw.swen3.services.mapper.ParcelMapper;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import jdk.jfr.Category;
 import org.junit.jupiter.api.MethodOrderer;
 import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
@@ -31,6 +32,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @SpringBootTest
 @AutoConfigureMockMvc
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
+@Category("Integration.class")
 public class RestIntegrationTest {
     @Autowired
     private MockMvc mockMvc;

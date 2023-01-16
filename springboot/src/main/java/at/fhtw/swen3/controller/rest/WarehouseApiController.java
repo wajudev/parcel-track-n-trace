@@ -2,22 +2,11 @@ package at.fhtw.swen3.controller.rest;
 
 
 import at.fhtw.swen3.controller.WarehouseApi;
-import at.fhtw.swen3.persistence.entities.TransferwarehouseEntity;
-import at.fhtw.swen3.persistence.entities.TruckEntity;
 import at.fhtw.swen3.persistence.entities.WarehouseEntity;
-import at.fhtw.swen3.services.BLException;
-import at.fhtw.swen3.services.ParcelService;
 import at.fhtw.swen3.services.WarehouseService;
-import at.fhtw.swen3.services.decorator.HopMapperDecorator;
 import at.fhtw.swen3.services.dto.Hop;
-import at.fhtw.swen3.services.dto.Transferwarehouse;
-import at.fhtw.swen3.services.dto.Truck;
 import at.fhtw.swen3.services.dto.Warehouse;
-import at.fhtw.swen3.services.mapper.HopMapper;
-import at.fhtw.swen3.services.mapper.TransferwarehouseMapper;
-import at.fhtw.swen3.services.mapper.TruckMapper;
 import at.fhtw.swen3.services.mapper.WarehouseMapper;
-import lombok.NoArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -74,10 +63,10 @@ public class WarehouseApiController implements WarehouseApi {
     }
 
     @Override
-    public ResponseEntity<Void> importWarehouses(Warehouse warehouse){
+    public ResponseEntity<String> importWarehouses(Warehouse warehouse){
         WarehouseEntity warehouseEntity = WarehouseMapper.INSTANCE.dtoToEntity(warehouse);
         warehouseService.importWarehouses(warehouseEntity);
-        return new ResponseEntity<>(HttpStatus.OK);
+        return new ResponseEntity<>("Successfully loaded", HttpStatus.OK);
     }
 
 }
